@@ -1,0 +1,2187 @@
+{
+  "project_key": "FORD29262",
+  "schedule_groups": [],
+  "configsets": {
+    "433": {
+      "config_values": [
+        {
+          "id": 9306,
+          "isencrypted": false,
+          "paramname": "mail_Body",
+          "paramvalue": "Exchange successful",
+          "configset_id": 433
+        },
+        {
+          "id": 9307,
+          "isencrypted": false,
+          "paramname": "Include Creation of WI",
+          "paramvalue": "true",
+          "configset_id": 433
+        },
+        {
+          "id": 9309,
+          "isencrypted": false,
+          "paramname": "mail_From",
+          "paramvalue": "agosense.symphony@visteon.com",
+          "configset_id": 433
+        },
+        {
+          "id": 9310,
+          "isencrypted": false,
+          "paramname": "createMapping",
+          "paramvalue": "100",
+          "configset_id": 433
+        },
+        {
+          "id": 9311,
+          "isencrypted": false,
+          "paramname": "DCustomer",
+          "paramvalue": "Ford",
+          "configset_id": 433
+        },
+        {
+          "id": 9314,
+          "isencrypted": false,
+          "paramname": "fordJiraLastUpdatedField",
+          "paramvalue": "statuscategorychangedate",
+          "configset_id": 433
+        },
+        {
+          "id": 9315,
+          "isencrypted": false,
+          "paramname": "DashboardScript",
+          "paramvalue": "/opt/symphony/schema_files/Dashboard/testDashborad.sh",
+          "configset_id": 433
+        },
+        {
+          "id": 9316,
+          "isencrypted": false,
+          "paramname": "Include Comments",
+          "paramvalue": "true",
+          "configset_id": 433
+        },
+        {
+          "id": 9317,
+          "isencrypted": false,
+          "paramname": "mail_subject",
+          "paramvalue": "FORD JIRA to VISTEON JIRA Defects CX482 Exchange",
+          "configset_id": 433
+        },
+        {
+          "id": 9318,
+          "isencrypted": false,
+          "paramname": "updateMapping",
+          "paramvalue": "516",
+          "configset_id": 433
+        },
+        {
+          "id": 9319,
+          "isencrypted": false,
+          "paramname": "rtcVerifiedInFieldValue",
+          "paramvalue": "Unknown",
+          "configset_id": 433
+        },
+        {
+          "id": 9320,
+          "isencrypted": false,
+          "paramname": "Not Include Status Timestamp Condtn",
+          "paramvalue": "false",
+          "configset_id": 433
+        },
+        {
+          "id": 9321,
+          "isencrypted": false,
+          "paramname": "visteonJiraStatusfield",
+          "paramvalue": "status",
+          "configset_id": 433
+        },
+        {
+          "id": 9324,
+          "isencrypted": false,
+          "paramname": "fordExtRefId Field",
+          "paramvalue": "External Reference ID",
+          "configset_id": 433
+        },
+        {
+          "id": 9325,
+          "isencrypted": false,
+          "paramname": "visteonJiraIssueType",
+          "paramvalue": "10012",
+          "configset_id": 433
+        },
+        {
+          "id": 9326,
+          "isencrypted": false,
+          "paramname": "visteonJiraLastUpdatedField",
+          "paramvalue": "statuscategorychangedate",
+          "configset_id": 433
+        },
+        {
+          "id": 9327,
+          "isencrypted": false,
+          "paramname": "Include Attachments",
+          "paramvalue": "true",
+          "configset_id": 433
+        },
+        {
+          "id": 9328,
+          "isencrypted": false,
+          "paramname": "DProjectName",
+          "paramvalue": "CX482_CX483",
+          "configset_id": 433
+        },
+        {
+          "id": 9329,
+          "isencrypted": false,
+          "paramname": "CommentsMapping",
+          "paramvalue": "520",
+          "configset_id": 433
+        },
+        {
+          "id": 9330,
+          "isencrypted": false,
+          "paramname": "handle Invisible",
+          "paramvalue": "false",
+          "configset_id": 433
+        },
+        {
+          "id": 9331,
+          "isencrypted": false,
+          "paramname": "fordJiraStatusfield",
+          "paramvalue": "status",
+          "configset_id": 433
+        },
+        {
+          "id": 9332,
+          "isencrypted": false,
+          "paramname": "RequiredfordJIRAfieldforVisteonID",
+          "paramvalue": "true",
+          "configset_id": 433
+        },
+        {
+          "id": 9333,
+          "isencrypted": false,
+          "paramname": "visteonJiraProject",
+          "paramvalue": "FORD29262",
+          "configset_id": 433
+        },
+        {
+          "id": 9334,
+          "isencrypted": false,
+          "paramname": "Include Status Exchange",
+          "paramvalue": "true",
+          "configset_id": 433
+        },
+        {
+          "id": 9335,
+          "isencrypted": false,
+          "paramname": "FilePath",
+          "paramvalue": "/opt/symphony/schema_files/Dashboard/FORD/Defects/cx482_483/ford2visteon",
+          "configset_id": 433
+        },
+        {
+          "id": 9337,
+          "isencrypted": false,
+          "paramname": "fordJIRAfieldforVisteonID",
+          "paramvalue": "External Reference ID",
+          "configset_id": 433
+        },
+        {
+          "id": 9338,
+          "isencrypted": false,
+          "paramname": "visteonResolutionfield",
+          "paramvalue": "resolution",
+          "configset_id": 433
+        },
+        {
+          "id": 9339,
+          "isencrypted": false,
+          "paramname": "visteonJiraVerifiedInField",
+          "paramvalue": "Verified Version",
+          "configset_id": 433
+        },
+        {
+          "id": 9312,
+          "isencrypted": false,
+          "paramname": "visteonJiraConfigSet",
+          "paramvalue": "146",
+          "configset_id": 433
+        },
+        {
+          "id": 9322,
+          "isencrypted": false,
+          "paramname": "smtpConfigSet",
+          "paramvalue": "175",
+          "configset_id": 433
+        },
+        {
+          "id": 9313,
+          "isencrypted": false,
+          "paramname": "PersistenceVersion",
+          "paramvalue": "ipcvisteon_cx482_cx483_1.0.0",
+          "configset_id": 433
+        },
+        {
+          "id": 9323,
+          "isencrypted": false,
+          "paramname": "fordJiraConfigSet",
+          "paramvalue": "432",
+          "configset_id": 433
+        },
+        {
+          "id": 9336,
+          "isencrypted": false,
+          "paramname": "mail_To",
+          "paramvalue": "sgonela@visteon.com,rrs@visteon.com",
+          "configset_id": 433
+        },
+        {
+          "id": 9308,
+          "isencrypted": false,
+          "paramname": "fordJiraquery",
+          "paramvalue": "project = \"Instrument Panel Cluster with Visteon\" AND type = Bug AND \"Vehicle Program\" in (\"2024 CX482E\",\"2023 CX482 MCA\",\"2024.5 CX482 MCA\",\"2023 CX483\", \"2023 CX483 MCA\",\"2024 CX483\",\"2026 CX482E ICA\",\"2026.5 CX482E ICA\",\"2027 CX482E\") AND \"Impacted Component\"= IPC_SX2",
+          "configset_id": 433
+        },
+        {
+          "id": 9739,
+          "isencrypted": false,
+          "paramname": "assigneeDefaultVal",
+          "paramvalue": "63809756213a315af3475332",
+          "configset_id": 433
+        }
+      ],
+      "mapping_ids": [
+        100,
+        516,
+        520
+      ]
+    },
+    "434": {
+      "config_values": [
+        {
+          "id": 9340,
+          "isencrypted": false,
+          "paramname": "CommentKeyWord",
+          "paramvalue": "#JIRAcomment",
+          "configset_id": 434
+        },
+        {
+          "id": 9341,
+          "isencrypted": false,
+          "paramname": "FordJiraStatusfield",
+          "paramvalue": "status",
+          "configset_id": 434
+        },
+        {
+          "id": 9343,
+          "isencrypted": false,
+          "paramname": "DProjectName",
+          "paramvalue": "CX482_CX483",
+          "configset_id": 434
+        },
+        {
+          "id": 9345,
+          "isencrypted": false,
+          "paramname": "handle Invisible",
+          "paramvalue": "false",
+          "configset_id": 434
+        },
+        {
+          "id": 9346,
+          "isencrypted": false,
+          "paramname": "creation of WI",
+          "paramvalue": "false",
+          "configset_id": 434
+        },
+        {
+          "id": 9347,
+          "isencrypted": false,
+          "paramname": "include Status",
+          "paramvalue": "true",
+          "configset_id": 434
+        },
+        {
+          "id": 9349,
+          "isencrypted": false,
+          "paramname": "filterAttachments",
+          "paramvalue": "true",
+          "configset_id": 434
+        },
+        {
+          "id": 9350,
+          "isencrypted": false,
+          "paramname": "visteonParentCustID Field",
+          "paramvalue": "Parent Customer ID",
+          "configset_id": 434
+        },
+        {
+          "id": 9351,
+          "isencrypted": false,
+          "paramname": "comments",
+          "paramvalue": "true",
+          "configset_id": 434
+        },
+        {
+          "id": 9352,
+          "isencrypted": false,
+          "paramname": "FilePath",
+          "paramvalue": "/opt/symphony/schema_files/Dashboard/FORD/Defects/cx482_483/visteon2ford",
+          "configset_id": 434
+        },
+        {
+          "id": 9353,
+          "isencrypted": false,
+          "paramname": "createMapping",
+          "paramvalue": "107",
+          "configset_id": 434
+        },
+        {
+          "id": 9354,
+          "isencrypted": false,
+          "paramname": "DashboardScript",
+          "paramvalue": "/opt/symphony/schema_files/Dashboard/testDashborad.sh",
+          "configset_id": 434
+        },
+        {
+          "id": 9355,
+          "isencrypted": false,
+          "paramname": "CommentsMapping",
+          "paramvalue": "145",
+          "configset_id": 434
+        },
+        {
+          "id": 9356,
+          "isencrypted": false,
+          "paramname": "Ford Link keyword",
+          "paramvalue": "Cloners",
+          "configset_id": 434
+        },
+        {
+          "id": 9357,
+          "isencrypted": false,
+          "paramname": "VisteonJiraStatusfield",
+          "paramvalue": "status",
+          "configset_id": 434
+        },
+        {
+          "id": 9358,
+          "isencrypted": false,
+          "paramname": "rtcVerifiedInFieldValue",
+          "paramvalue": "",
+          "configset_id": 434
+        },
+        {
+          "id": 9359,
+          "isencrypted": false,
+          "paramname": "updateMapping",
+          "paramvalue": "345",
+          "configset_id": 434
+        },
+        {
+          "id": 9360,
+          "isencrypted": false,
+          "paramname": "mail_subject",
+          "paramvalue": "VISTEON to FORD CX482 JIRA Defects Exchange",
+          "configset_id": 434
+        },
+        {
+          "id": 9361,
+          "isencrypted": false,
+          "paramname": "visteonJiraVerifiedInField",
+          "paramvalue": "",
+          "configset_id": 434
+        },
+        {
+          "id": 9362,
+          "isencrypted": false,
+          "paramname": "visteonExtTrackingRef Field",
+          "paramvalue": "External Tracking Ref",
+          "configset_id": 434
+        },
+        {
+          "id": 9363,
+          "isencrypted": false,
+          "paramname": "Attachments",
+          "paramvalue": "true",
+          "configset_id": 434
+        },
+        {
+          "id": 9364,
+          "isencrypted": false,
+          "paramname": "VisteonJiraProject",
+          "paramvalue": "FORD29262",
+          "configset_id": 434
+        },
+        {
+          "id": 9365,
+          "isencrypted": false,
+          "paramname": "DCustomer",
+          "paramvalue": "Ford",
+          "configset_id": 434
+        },
+        {
+          "id": 9366,
+          "isencrypted": false,
+          "paramname": "RequiedVisteonJirafieldforFordJIRAID",
+          "paramvalue": "false",
+          "configset_id": 434
+        },
+        {
+          "id": 9369,
+          "isencrypted": false,
+          "paramname": "FordjiraLastStatusChangeField",
+          "paramvalue": "statuscategorychangedate",
+          "configset_id": 434
+        },
+        {
+          "id": 9370,
+          "isencrypted": false,
+          "paramname": "mail_To",
+          "paramvalue": "sgonela@visteon.com,rrs@visteon.com",
+          "configset_id": 434
+        },
+        {
+          "id": 9371,
+          "isencrypted": false,
+          "paramname": "is ReadAcross",
+          "paramvalue": "false",
+          "configset_id": 434
+        },
+        {
+          "id": 9373,
+          "isencrypted": false,
+          "paramname": "VisteonJiraLastStatusChangeField",
+          "paramvalue": "statuscategorychangedate",
+          "configset_id": 434
+        },
+        {
+          "id": 9374,
+          "isencrypted": false,
+          "paramname": "mail_From",
+          "paramvalue": "agosense.symphony@visteon.com",
+          "configset_id": 434
+        },
+        {
+          "id": 9375,
+          "isencrypted": false,
+          "paramname": "VisteonJirafieldforFordJIRAID",
+          "paramvalue": "External Tracking Ref",
+          "configset_id": 434
+        },
+        {
+          "id": 9376,
+          "isencrypted": false,
+          "paramname": "attachment filter",
+          "paramvalue": "xlsx#xlsm#xls#csv#doc#docm#docx#pdf",
+          "configset_id": 434
+        },
+        {
+          "id": 9377,
+          "isencrypted": false,
+          "paramname": "FordJIRAIssuetype",
+          "paramvalue": "10001",
+          "configset_id": 434
+        },
+        {
+          "id": 9378,
+          "isencrypted": false,
+          "paramname": "mail_Body",
+          "paramvalue": "Exchange successful",
+          "configset_id": 434
+        },
+        {
+          "id": 9379,
+          "isencrypted": false,
+          "paramname": "Not Include Status Timestamp Condtn",
+          "paramvalue": "true",
+          "configset_id": 434
+        },
+        {
+          "id": 9348,
+          "isencrypted": false,
+          "paramname": "VisteonJiraConfigSet",
+          "paramvalue": "146",
+          "configset_id": 434
+        },
+        {
+          "id": 9342,
+          "isencrypted": false,
+          "paramname": "smtpConfigSet",
+          "paramvalue": "175",
+          "configset_id": 434
+        },
+        {
+          "id": 9367,
+          "isencrypted": false,
+          "paramname": "PersistenceVersion",
+          "paramvalue": "ipcvisteon_cx482_cx483_1.0.0",
+          "configset_id": 434
+        },
+        {
+          "id": 9368,
+          "isencrypted": false,
+          "paramname": "FordJIRAProject",
+          "paramvalue": "IPCVISTEON",
+          "configset_id": 434
+        },
+        {
+          "id": 9372,
+          "isencrypted": false,
+          "paramname": "FordJiraConfigSet",
+          "paramvalue": "432",
+          "configset_id": 434
+        },
+        {
+          "id": 9344,
+          "isencrypted": false,
+          "paramname": "VisteonJirafilter",
+          "paramvalue": "project = \"Ford IC SX2 CX482/CX483 2023 29262\" AND type = Defect AND \"How Found[Dropdown]\" = Customer AND \"Customer Disclosed[Dropdown]\" = Yes AND updated >= -1d",
+          "configset_id": 434
+        }
+      ],
+      "mapping_ids": [
+        107,
+        145,
+        345
+      ]
+    }
+  },
+  "mappings": {
+    "5": {
+      "scenario": {
+        "id": 5,
+        "basicmappingid": null,
+        "dstcomponentid": null,
+        "dstconfigsetid": null,
+        "dstmappingcontextinfo": null,
+        "name": "CX482_defects_Visteon2Ford_basic",
+        "srccomponentid": null,
+        "srcconfigsetid": null,
+        "srcmappingcontextinfo": null,
+        "type_id": 67
+      },
+      "attributes": {
+        "1277": {
+          "attribute": {
+            "id": 1277,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "summary",
+            "executionorder": 1,
+            "mustmatch": false,
+            "srcname": "summary",
+            "scenario_id": 5
+          },
+          "value_mappings": []
+        },
+        "2236": {
+          "attribute": {
+            "id": 2236,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "description",
+            "executionorder": 2,
+            "mustmatch": false,
+            "srcname": "Customer Description",
+            "scenario_id": 5
+          },
+          "value_mappings": []
+        },
+        "2366": {
+          "attribute": {
+            "id": 2366,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "Risk",
+            "executionorder": 5,
+            "mustmatch": false,
+            "srcname": "Customer Severity",
+            "scenario_id": 5
+          },
+          "value_mappings": []
+        },
+        "2466": {
+          "attribute": {
+            "id": 2466,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "Found in Build Version",
+            "executionorder": 3,
+            "mustmatch": false,
+            "srcname": "affectsVersions",
+            "scenario_id": 5
+          },
+          "value_mappings": [
+            {
+              "id": 16988,
+              "vmcomment": null,
+              "executionorder": 1,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "(.*)",
+              "replaces": "1",
+              "attribute_id": 2466
+            }
+          ]
+        },
+        "3118": {
+          "attribute": {
+            "id": 3118,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "customfield_11254",
+            "executionorder": 4,
+            "mustmatch": false,
+            "srcname": "affectsVersions",
+            "scenario_id": 5
+          },
+          "value_mappings": [
+            {
+              "id": 903,
+              "vmcomment": null,
+              "executionorder": 1,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "(.*)",
+              "replaces": "1",
+              "attribute_id": 3118
+            }
+          ]
+        },
+        "4666": {
+          "attribute": {
+            "id": 4666,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "duedate",
+            "executionorder": 6,
+            "mustmatch": false,
+            "srcname": "duedate",
+            "scenario_id": 5
+          },
+          "value_mappings": []
+        }
+      }
+    },
+    "107": {
+      "scenario": {
+        "id": 107,
+        "basicmappingid": null,
+        "dstcomponentid": null,
+        "dstconfigsetid": null,
+        "dstmappingcontextinfo": null,
+        "name": "CX482_defects_Visteon2Ford_create",
+        "srccomponentid": null,
+        "srcconfigsetid": null,
+        "srcmappingcontextinfo": null,
+        "type_id": 67
+      },
+      "attributes": {
+        "270": {
+          "attribute": {
+            "id": 270,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "Bug",
+            "dstname": "type",
+            "executionorder": 1,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 107
+          },
+          "value_mappings": []
+        },
+        "282": {
+          "attribute": {
+            "id": 282,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "customfield_12512",
+            "executionorder": 7,
+            "mustmatch": false,
+            "srcname": "Severity",
+            "scenario_id": 107
+          },
+          "value_mappings": []
+        },
+        "833": {
+          "attribute": {
+            "id": 833,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "Jira",
+            "dstname": "components",
+            "executionorder": 8,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 107
+          },
+          "value_mappings": []
+        },
+        "921": {
+          "attribute": {
+            "id": 921,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "Windows",
+            "dstname": "Applicable Platforms",
+            "executionorder": 2,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 107
+          },
+          "value_mappings": []
+        },
+        "1263": {
+          "attribute": {
+            "id": 1263,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "Critical",
+            "dstname": "customfield_10110",
+            "executionorder": 4,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 107
+          },
+          "value_mappings": []
+        },
+        "1754": {
+          "attribute": {
+            "id": 1754,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "External Reference ID",
+            "executionorder": 5,
+            "mustmatch": false,
+            "srcname": "key",
+            "scenario_id": 107
+          },
+          "value_mappings": []
+        },
+        "2464": {
+          "attribute": {
+            "id": 2464,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "Critical",
+            "dstname": "Severity",
+            "executionorder": 3,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 107
+          },
+          "value_mappings": []
+        },
+        "4032": {
+          "attribute": {
+            "id": 4032,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "Risk",
+            "executionorder": 6,
+            "mustmatch": false,
+            "srcname": "Severity",
+            "scenario_id": 107
+          },
+          "value_mappings": []
+        }
+      }
+    },
+    "145": {
+      "scenario": {
+        "id": 145,
+        "basicmappingid": null,
+        "dstcomponentid": null,
+        "dstconfigsetid": null,
+        "dstmappingcontextinfo": null,
+        "name": "CX482_defects_Visteon2Ford_comments",
+        "srccomponentid": null,
+        "srcconfigsetid": null,
+        "srcmappingcontextinfo": null,
+        "type_id": 67
+      },
+      "attributes": {
+        "398": {
+          "attribute": {
+            "id": 398,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "comment",
+            "executionorder": 1,
+            "mustmatch": false,
+            "srcname": "comment",
+            "scenario_id": 145
+          },
+          "value_mappings": [
+            {
+              "id": 815,
+              "vmcomment": null,
+              "executionorder": 12,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "@",
+              "replaces": "@",
+              "attribute_id": 398
+            },
+            {
+              "id": 1481,
+              "vmcomment": null,
+              "executionorder": 21,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "\"",
+              "replaces": "\"",
+              "attribute_id": 398
+            },
+            {
+              "id": 2021,
+              "vmcomment": null,
+              "executionorder": 11,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "#",
+              "replaces": "#",
+              "attribute_id": 398
+            },
+            {
+              "id": 2366,
+              "vmcomment": null,
+              "executionorder": 23,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": ">;",
+              "replaces": " ",
+              "attribute_id": 398
+            },
+            {
+              "id": 2520,
+              "vmcomment": null,
+              "executionorder": 18,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "/",
+              "replaces": "/",
+              "attribute_id": 398
+            },
+            {
+              "id": 3002,
+              "vmcomment": null,
+              "executionorder": 20,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": ";",
+              "replaces": ";",
+              "attribute_id": 398
+            },
+            {
+              "id": 3040,
+              "vmcomment": null,
+              "executionorder": 9,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "&",
+              "replaces": "&amp;",
+              "attribute_id": 398
+            },
+            {
+              "id": 4565,
+              "vmcomment": null,
+              "executionorder": 16,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "-",
+              "replaces": "-",
+              "attribute_id": 398
+            },
+            {
+              "id": 5158,
+              "vmcomment": null,
+              "executionorder": 7,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "&#126;",
+              "replaces": "~",
+              "attribute_id": 398
+            },
+            {
+              "id": 6490,
+              "vmcomment": null,
+              "executionorder": 1,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "<br></br>",
+              "replaces": " ",
+              "attribute_id": 398
+            },
+            {
+              "id": 6742,
+              "vmcomment": null,
+              "executionorder": 10,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "%",
+              "replaces": "%",
+              "attribute_id": 398
+            },
+            {
+              "id": 8794,
+              "vmcomment": null,
+              "executionorder": 14,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "<",
+              "replaces": "<",
+              "attribute_id": 398
+            },
+            {
+              "id": 8843,
+              "vmcomment": null,
+              "executionorder": 5,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "<synthetic>",
+              "replaces": " ",
+              "attribute_id": 398
+            },
+            {
+              "id": 10883,
+              "vmcomment": null,
+              "executionorder": 19,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": ":",
+              "replaces": ":",
+              "attribute_id": 398
+            },
+            {
+              "id": 11781,
+              "vmcomment": null,
+              "executionorder": 13,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": ">",
+              "replaces": ">",
+              "attribute_id": 398
+            },
+            {
+              "id": 13853,
+              "vmcomment": null,
+              "executionorder": 15,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "=",
+              "replaces": "=",
+              "attribute_id": 398
+            },
+            {
+              "id": 13962,
+              "vmcomment": null,
+              "executionorder": 6,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "</synthetic>",
+              "replaces": " ",
+              "attribute_id": 398
+            },
+            {
+              "id": 14225,
+              "vmcomment": null,
+              "executionorder": 3,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "</br>",
+              "replaces": " ",
+              "attribute_id": 398
+            },
+            {
+              "id": 14423,
+              "vmcomment": null,
+              "executionorder": 17,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "!",
+              "replaces": "!",
+              "attribute_id": 398
+            },
+            {
+              "id": 15560,
+              "vmcomment": null,
+              "executionorder": 4,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "<b>",
+              "replaces": " ",
+              "attribute_id": 398
+            },
+            {
+              "id": 16689,
+              "vmcomment": null,
+              "executionorder": 2,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "<br>",
+              "replaces": " ",
+              "attribute_id": 398
+            },
+            {
+              "id": 16823,
+              "vmcomment": null,
+              "executionorder": 24,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": " <",
+              "replaces": " ",
+              "attribute_id": 398
+            },
+            {
+              "id": 18059,
+              "vmcomment": null,
+              "executionorder": 8,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "&#94;",
+              "replaces": "^",
+              "attribute_id": 398
+            },
+            {
+              "id": 18566,
+              "vmcomment": null,
+              "executionorder": 22,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "'",
+              "replaces": "'",
+              "attribute_id": 398
+            }
+          ]
+        }
+      }
+    },
+    "100": {
+      "scenario": {
+        "id": 100,
+        "basicmappingid": 516,
+        "dstcomponentid": null,
+        "dstconfigsetid": null,
+        "dstmappingcontextinfo": null,
+        "name": "CX482_defects_Ford2Visteon_create",
+        "srccomponentid": null,
+        "srcconfigsetid": null,
+        "srcmappingcontextinfo": null,
+        "type_id": 67
+      },
+      "attributes": {
+        "83": {
+          "attribute": {
+            "id": 83,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "Sometimes",
+            "dstname": "Occurrence",
+            "executionorder": 1,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 100
+          },
+          "value_mappings": []
+        },
+        "935": {
+          "attribute": {
+            "id": 935,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "External Tracking Ref",
+            "executionorder": 5,
+            "mustmatch": false,
+            "srcname": "key",
+            "scenario_id": 100
+          },
+          "value_mappings": []
+        },
+        "1273": {
+          "attribute": {
+            "id": 1273,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "SW_DI_SW",
+            "dstname": "components",
+            "executionorder": 4,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 100
+          },
+          "value_mappings": []
+        },
+        "1360": {
+          "attribute": {
+            "id": 1360,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "Yes",
+            "dstname": "Customer Disclosed",
+            "executionorder": 6,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 100
+          },
+          "value_mappings": []
+        },
+        "1636": {
+          "attribute": {
+            "id": 1636,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "Unknown",
+            "dstname": "affectsVersions",
+            "executionorder": 3,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 100
+          },
+          "value_mappings": []
+        },
+        "1949": {
+          "attribute": {
+            "id": 1949,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "Customer",
+            "dstname": "How Found",
+            "executionorder": 2,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 100
+          },
+          "value_mappings": []
+        },
+        "3003": {
+          "attribute": {
+            "id": 3003,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "Unassigned",
+            "dstname": "Feature Group",
+            "executionorder": 8,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 100
+          },
+          "value_mappings": []
+        },
+        "3513": {
+          "attribute": {
+            "id": 3513,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "Low",
+            "dstname": "Severity",
+            "executionorder": 7,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 100
+          },
+          "value_mappings": []
+        },
+        "4751": {
+          "attribute": {
+            "id": 4751,
+            "append": false,
+            "datatype": "",
+            "defaultvalue": "",
+            "dstname": "Variant",
+            "executionorder": 9,
+            "mustmatch": false,
+            "srcname": "Vehicle Program",
+            "scenario_id": 100
+          },
+          "value_mappings": [
+            {
+              "id": 20883,
+              "vmcomment": "",
+              "executionorder": 1,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2026 CX482E ICA$",
+              "replaces": "CX482 EU MY24",
+              "attribute_id": 4751
+            },
+            {
+              "id": 20888,
+              "vmcomment": "",
+              "executionorder": 2,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2026.5 CX482E ICA$",
+              "replaces": "CX482 EU MY26.5",
+              "attribute_id": 4751
+            },
+            {
+              "id": 20889,
+              "vmcomment": "",
+              "executionorder": 3,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2024.5 CX482 MCA$",
+              "replaces": "CX482 EU MY24",
+              "attribute_id": 4751
+            },
+            {
+              "id": 20890,
+              "vmcomment": "",
+              "executionorder": 4,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2024 CX482E$",
+              "replaces": "CX482 EU MY24",
+              "attribute_id": 4751
+            },
+            {
+              "id": 20891,
+              "vmcomment": "",
+              "executionorder": 5,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2024 CX482E ICA$",
+              "replaces": "CX482 EU MY24",
+              "attribute_id": 4751
+            },
+            {
+              "id": 20892,
+              "vmcomment": "",
+              "executionorder": 6,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2024 CX483$",
+              "replaces": "CX483 NA MY24",
+              "attribute_id": 4751
+            },
+            {
+              "id": 20893,
+              "vmcomment": "",
+              "executionorder": 7,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2024 CX483N$",
+              "replaces": "CX483 NA MY24",
+              "attribute_id": 4751
+            },
+            {
+              "id": 20894,
+              "vmcomment": "",
+              "executionorder": 8,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2023 CX482 MCA$",
+              "replaces": "CX482 NA MY23",
+              "attribute_id": 4751
+            },
+            {
+              "id": 20895,
+              "vmcomment": "",
+              "executionorder": 9,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2023 CX483$",
+              "replaces": "CX483 NA MY23",
+              "attribute_id": 4751
+            },
+            {
+              "id": 20896,
+              "vmcomment": "",
+              "executionorder": 10,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2023 CX483 MCA$",
+              "replaces": "CX483 NA MY23",
+              "attribute_id": 4751
+            },
+            {
+              "id": 23157,
+              "vmcomment": "",
+              "executionorder": 12,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2027 CX482E$",
+              "replaces": "CX482 EU MY27",
+              "attribute_id": 4751
+            },
+            {
+              "id": 21637,
+              "vmcomment": "",
+              "executionorder": 11,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "^2024.75 CX482E MCA$",
+              "replaces": "CX482 EU MY24",
+              "attribute_id": 4751
+            }
+          ]
+        },
+        "5652": {
+          "attribute": {
+            "id": 5652,
+            "append": false,
+            "datatype": "",
+            "defaultvalue": "Manual Test Case",
+            "dstname": "Identified By",
+            "executionorder": 10,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 100
+          },
+          "value_mappings": []
+        }
+      }
+    },
+    "345": {
+      "scenario": {
+        "id": 345,
+        "basicmappingid": null,
+        "dstcomponentid": null,
+        "dstconfigsetid": null,
+        "dstmappingcontextinfo": null,
+        "name": "CX482_defects_Visteon2Ford_update",
+        "srccomponentid": null,
+        "srcconfigsetid": null,
+        "srcmappingcontextinfo": null,
+        "type_id": 67
+      },
+      "attributes": {
+        "2844": {
+          "attribute": {
+            "id": 2844,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "External Reference ID",
+            "executionorder": 1,
+            "mustmatch": false,
+            "srcname": "key",
+            "scenario_id": 345
+          },
+          "value_mappings": []
+        },
+        "2908": {
+          "attribute": {
+            "id": 2908,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "duedate",
+            "executionorder": 2,
+            "mustmatch": false,
+            "srcname": "duedate",
+            "scenario_id": 345
+          },
+          "value_mappings": []
+        }
+      }
+    },
+    "516": {
+      "scenario": {
+        "id": 516,
+        "basicmappingid": null,
+        "dstcomponentid": null,
+        "dstconfigsetid": null,
+        "dstmappingcontextinfo": null,
+        "name": "CX482_defects_Ford2Visteon_basic",
+        "srccomponentid": null,
+        "srcconfigsetid": null,
+        "srcmappingcontextinfo": null,
+        "type_id": 67
+      },
+      "attributes": {
+        "181": {
+          "attribute": {
+            "id": 181,
+            "append": true,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "Customer Description",
+            "executionorder": 6,
+            "mustmatch": false,
+            "srcname": "labels",
+            "scenario_id": 516
+          },
+          "value_mappings": []
+        },
+        "317": {
+          "attribute": {
+            "id": 317,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "Customer Status",
+            "executionorder": 9,
+            "mustmatch": false,
+            "srcname": "customfield_10193",
+            "scenario_id": 516
+          },
+          "value_mappings": [
+            {
+              "id": 2697,
+              "vmcomment": null,
+              "executionorder": 1,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "(.*)",
+              "replaces": "Customer Severity: $1",
+              "attribute_id": 317
+            }
+          ]
+        },
+        "642": {
+          "attribute": {
+            "id": 642,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "Detected in Customer Release",
+            "executionorder": 7,
+            "mustmatch": false,
+            "srcname": "affectsVersions",
+            "scenario_id": 516
+          },
+          "value_mappings": []
+        },
+        "1033": {
+          "attribute": {
+            "id": 1033,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "Customer ID",
+            "executionorder": 4,
+            "mustmatch": false,
+            "srcname": "Vehicle Program",
+            "scenario_id": 516
+          },
+          "value_mappings": []
+        },
+        "1265": {
+          "attribute": {
+            "id": 1265,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": "10012",
+            "dstname": "type",
+            "executionorder": 2,
+            "mustmatch": false,
+            "srcname": "[NONE]",
+            "scenario_id": 516
+          },
+          "value_mappings": []
+        },
+        "1403": {
+          "attribute": {
+            "id": 1403,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "External Tracking Ref",
+            "executionorder": 10,
+            "mustmatch": false,
+            "srcname": "key",
+            "scenario_id": 516
+          },
+          "value_mappings": []
+        },
+        "1871": {
+          "attribute": {
+            "id": 1871,
+            "append": false,
+            "datatype": "TEXT",
+            "defaultvalue": null,
+            "dstname": "Customer Priority",
+            "executionorder": 3,
+            "mustmatch": true,
+            "srcname": "priority",
+            "scenario_id": 516
+          },
+          "value_mappings": [
+            {
+              "id": 25,
+              "vmcomment": null,
+              "executionorder": 5,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "P0",
+              "replaces": "1-Urgent",
+              "attribute_id": 1871
+            },
+            {
+              "id": 1257,
+              "vmcomment": null,
+              "executionorder": 3,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "P3",
+              "replaces": "2-Mid",
+              "attribute_id": 1871
+            },
+            {
+              "id": 8022,
+              "vmcomment": null,
+              "executionorder": 2,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "P2",
+              "replaces": "2-Very High",
+              "attribute_id": 1871
+            },
+            {
+              "id": 15647,
+              "vmcomment": null,
+              "executionorder": 4,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "P4",
+              "replaces": "3-Low",
+              "attribute_id": 1871
+            },
+            {
+              "id": 16193,
+              "vmcomment": null,
+              "executionorder": 1,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "P1",
+              "replaces": "1-High",
+              "attribute_id": 1871
+            }
+          ]
+        },
+        "2181": {
+          "attribute": {
+            "id": 2181,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "Defect Description",
+            "executionorder": 5,
+            "mustmatch": false,
+            "srcname": "description",
+            "scenario_id": 516
+          },
+          "value_mappings": [
+            {
+              "id": 18381,
+              "vmcomment": null,
+              "executionorder": 2,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": ">",
+              "replaces": "&gt;",
+              "attribute_id": 2181
+            },
+            {
+              "id": 19952,
+              "vmcomment": null,
+              "executionorder": 1,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "<",
+              "replaces": "&lt;",
+              "attribute_id": 2181
+            }
+          ]
+        },
+        "2199": {
+          "attribute": {
+            "id": 2199,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "summary",
+            "executionorder": 1,
+            "mustmatch": false,
+            "srcname": "summary",
+            "scenario_id": 516
+          },
+          "value_mappings": []
+        },
+        "2570": {
+          "attribute": {
+            "id": 2570,
+            "append": false,
+            "datatype": "ENUMERATION",
+            "defaultvalue": null,
+            "dstname": "P-Rating",
+            "executionorder": 11,
+            "mustmatch": true,
+            "srcname": "priority",
+            "scenario_id": 516
+          },
+          "value_mappings": [
+            {
+              "id": 4605,
+              "vmcomment": "",
+              "executionorder": 2,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "P1",
+              "replaces": "P1",
+              "attribute_id": 2570
+            },
+            {
+              "id": 4863,
+              "vmcomment": "",
+              "executionorder": 5,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "P4",
+              "replaces": "P4",
+              "attribute_id": 2570
+            },
+            {
+              "id": 4905,
+              "vmcomment": "",
+              "executionorder": 3,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "P2",
+              "replaces": "P2",
+              "attribute_id": 2570
+            },
+            {
+              "id": 12949,
+              "vmcomment": "",
+              "executionorder": 4,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "P3",
+              "replaces": "P3",
+              "attribute_id": 2570
+            },
+            {
+              "id": 15621,
+              "vmcomment": "",
+              "executionorder": 1,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "P0",
+              "replaces": "P0",
+              "attribute_id": 2570
+            }
+          ]
+        },
+        "4631": {
+          "attribute": {
+            "id": 4631,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "Customer Severity",
+            "executionorder": 8,
+            "mustmatch": true,
+            "srcname": "Risk",
+            "scenario_id": 516
+          },
+          "value_mappings": [
+            {
+              "id": 2120,
+              "vmcomment": null,
+              "executionorder": 2,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "Minor",
+              "replaces": "Minor",
+              "attribute_id": 4631
+            },
+            {
+              "id": 19391,
+              "vmcomment": null,
+              "executionorder": 1,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "Major",
+              "replaces": "Major",
+              "attribute_id": 4631
+            }
+          ]
+        }
+      }
+    },
+    "520": {
+      "scenario": {
+        "id": 520,
+        "basicmappingid": null,
+        "dstcomponentid": null,
+        "dstconfigsetid": null,
+        "dstmappingcontextinfo": null,
+        "name": "CX482_defects_Ford2Visteon_comments",
+        "srccomponentid": null,
+        "srcconfigsetid": null,
+        "srcmappingcontextinfo": null,
+        "type_id": 67
+      },
+      "attributes": {
+        "3783": {
+          "attribute": {
+            "id": 3783,
+            "append": false,
+            "datatype": null,
+            "defaultvalue": null,
+            "dstname": "comment",
+            "executionorder": 1,
+            "mustmatch": false,
+            "srcname": "comment",
+            "scenario_id": 520
+          },
+          "value_mappings": [
+            {
+              "id": 761,
+              "vmcomment": null,
+              "executionorder": 1,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "<br></br>",
+              "replaces": " ",
+              "attribute_id": 3783
+            },
+            {
+              "id": 1357,
+              "vmcomment": null,
+              "executionorder": 13,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": ">",
+              "replaces": "&gt;",
+              "attribute_id": 3783
+            },
+            {
+              "id": 2187,
+              "vmcomment": null,
+              "executionorder": 25,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": false,
+              "matches": "(.*)",
+              "replaces": "Comments from Customer:\n\n$1",
+              "attribute_id": 3783
+            },
+            {
+              "id": 3563,
+              "vmcomment": null,
+              "executionorder": 20,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": ";",
+              "replaces": ";",
+              "attribute_id": 3783
+            },
+            {
+              "id": 4151,
+              "vmcomment": null,
+              "executionorder": 7,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "&#126;",
+              "replaces": "~",
+              "attribute_id": 3783
+            },
+            {
+              "id": 4306,
+              "vmcomment": null,
+              "executionorder": 5,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "<synthetic>",
+              "replaces": " ",
+              "attribute_id": 3783
+            },
+            {
+              "id": 5342,
+              "vmcomment": null,
+              "executionorder": 8,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "&#94;",
+              "replaces": "^",
+              "attribute_id": 3783
+            },
+            {
+              "id": 6832,
+              "vmcomment": null,
+              "executionorder": 23,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": ">;",
+              "replaces": " ",
+              "attribute_id": 3783
+            },
+            {
+              "id": 7923,
+              "vmcomment": null,
+              "executionorder": 2,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "<br>",
+              "replaces": " ",
+              "attribute_id": 3783
+            },
+            {
+              "id": 8510,
+              "vmcomment": null,
+              "executionorder": 15,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "=",
+              "replaces": "=",
+              "attribute_id": 3783
+            },
+            {
+              "id": 9346,
+              "vmcomment": null,
+              "executionorder": 22,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "'",
+              "replaces": "'",
+              "attribute_id": 3783
+            },
+            {
+              "id": 9580,
+              "vmcomment": null,
+              "executionorder": 17,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "!",
+              "replaces": "!",
+              "attribute_id": 3783
+            },
+            {
+              "id": 9650,
+              "vmcomment": null,
+              "executionorder": 19,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": ":",
+              "replaces": ":",
+              "attribute_id": 3783
+            },
+            {
+              "id": 10799,
+              "vmcomment": null,
+              "executionorder": 6,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "</synthetic>",
+              "replaces": " ",
+              "attribute_id": 3783
+            },
+            {
+              "id": 12618,
+              "vmcomment": null,
+              "executionorder": 9,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "&",
+              "replaces": "&amp;",
+              "attribute_id": 3783
+            },
+            {
+              "id": 12970,
+              "vmcomment": null,
+              "executionorder": 18,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "/",
+              "replaces": "/",
+              "attribute_id": 3783
+            },
+            {
+              "id": 13327,
+              "vmcomment": null,
+              "executionorder": 4,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "<b>",
+              "replaces": " ",
+              "attribute_id": 3783
+            },
+            {
+              "id": 13857,
+              "vmcomment": null,
+              "executionorder": 3,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "</br>",
+              "replaces": " ",
+              "attribute_id": 3783
+            },
+            {
+              "id": 14901,
+              "vmcomment": null,
+              "executionorder": 16,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "-",
+              "replaces": "-",
+              "attribute_id": 3783
+            },
+            {
+              "id": 15022,
+              "vmcomment": null,
+              "executionorder": 24,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": " <",
+              "replaces": " ",
+              "attribute_id": 3783
+            },
+            {
+              "id": 15779,
+              "vmcomment": null,
+              "executionorder": 14,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "<",
+              "replaces": "&lt;",
+              "attribute_id": 3783
+            },
+            {
+              "id": 16028,
+              "vmcomment": null,
+              "executionorder": 10,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "%",
+              "replaces": "%",
+              "attribute_id": 3783
+            },
+            {
+              "id": 17882,
+              "vmcomment": null,
+              "executionorder": 21,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "\"",
+              "replaces": "\"",
+              "attribute_id": 3783
+            },
+            {
+              "id": 18251,
+              "vmcomment": null,
+              "executionorder": 12,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "@",
+              "replaces": "@",
+              "attribute_id": 3783
+            },
+            {
+              "id": 18413,
+              "vmcomment": null,
+              "executionorder": 11,
+              "iscaseinsensitive": false,
+              "isdotall": false,
+              "ismultiline": false,
+              "isreplaceall": true,
+              "matches": "#",
+              "replaces": "#",
+              "attribute_id": 3783
+            }
+          ]
+        }
+      }
+    }
+  },
+  "schedules": [
+    {
+      "id": 231,
+      "configsetid": 433,
+      "configsetname": "IPC_CX482_CX483_f2V",
+      "cronstring": "0 15 0,12 ? * * ",
+      "isactive": true,
+      "lastrun": "2026-02-05 00:15:00.012000",
+      "lastsuccessrun": "2025-10-07 08:28:41.231000",
+      "name": "cx482_ford2visteonProcess",
+      "nodename": null,
+      "processid": 86,
+      "processname": "FordJira2VisteonProcess_fdv",
+      "url": null,
+      "schedulegroup_id": 23
+    },
+    {
+      "id": 239,
+      "configsetid": 434,
+      "configsetname": "IPC_CX482_CX483_visteon2Ford",
+      "cronstring": "0 15 5,17 ? * * ",
+      "isactive": true,
+      "lastrun": "2026-02-05 05:15:00.006000",
+      "lastsuccessrun": "2026-02-05 05:15:02.062000",
+      "name": "cx482_visteon2fordProcess",
+      "nodename": null,
+      "processid": 23,
+      "processname": "Visteon2FordProcess_DI",
+      "url": null,
+      "schedulegroup_id": 23
+    }
+  ]
+}
