@@ -1,0 +1,6 @@
+11196007	Updated	ABC-563	DEF-69297	WI Updated Successfully	260213071534_FordtoVisteon
+11196007	Updated	ABC-563	DEF-69297	WI Updated Successfully	260212071534_FordtoVisteon
+11199366	Created	DEF-69297	ABC-563	 WI Created Successfully	260211171521_Visteon2Ford
+11199367	Failed	FORD32864-2270	null	 Creation of defects are not included	260213171508_Visteon2Ford
+11199368	Failed	ABC-123	null	 Creation of defects are not included	260211071534_FordtoVisteon
+11199369	Failed	FORD32864-2243	null	 error while executing feature the priority value didn't set	260213171508_Visteon2Ford
