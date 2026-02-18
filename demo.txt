@@ -1,134 +1,25 @@
-pip install cron-descriptor croniter pytz
+import requests
+import json
 
 
-utils/cron_utils.py
+class LLMService:
 
-from datetime import datetime
-from typing import List, Dict
-from cron_descriptor import get_description
-from croniter import croniter
-import pytz
+    def __init__(self):
+        self.url = "http://localhost:11434/api/generate"
+        self.model = "llama3:8b"
 
+    def ask(self, prompt: str, temperature: float = 0.2):
 
-DEFAULT_TIMEZONE = "UTC"
-
-
-def cron_to_readable(cron_expression: str) -> str:
-    """
-    Convert cron expression into readable English format.
-    """
-    try:
-        return get_description(cron_expression)
-    except Exception:
-        return "Invalid cron expression"
-
-
-def get_next_run_times(
-    cron_expression: str,
-    count: int = 3,
-    timezone: str = DEFAULT_TIMEZONE
-) -> List[str]:
-    """
-    Returns next N run times in readable format.
-    """
-
-    try:
-        tz = pytz.timezone(timezone)
-    except Exception:
-        tz = pytz.timezone(DEFAULT_TIMEZONE)
-
-    try:
-        now = datetime.now(tz)
-        iterator = croniter(cron_expression, now)
-
-        runs = []
-        for _ in range(count):
-            next_run = iterator.get_next(datetime)
-            runs.append(next_run.strftime("%Y-%m-%d %H:%M:%S %Z"))
-
-        return runs
-
-    except Exception:
-        return []
-
-
-def build_schedule_response(
-    project_key: str,
-    process_name: str,
-    cron_expression: str,
-    timezone: str = DEFAULT_TIMEZONE
-) -> Dict:
-    """
-    Unified structured schedule response.
-    """
-
-    return {
-        "status": "success",
-        "project_key": project_key,
-        "process_name": process_name,
-        "cron_expression": cron_expression,
-        "readable_schedule": cron_to_readable(cron_expression),
-        "timezone": timezone,
-        "next_runs": get_next_run_times(
-            cron_expression,
-            count=3,
-            timezone=timezone
+        response = requests.post(
+            self.url,
+            json={
+                "model": self.model,
+                "prompt": prompt,
+                "temperature": temperature,
+                "stream": False
+            },
+            timeout=60
         )
-    }
 
-
-
-configservice.getschedule
-
-
-from app.utils.cron_utils import build_schedule_response
-
-def get_schedule(self, project_key: str, process_name: str):
-
-    conn = get_connection()
-    try:
-        schedule = repo.get_schedule(conn, project_key, process_name)
-    finally:
-        conn.close()
-
-    if not schedule:
-        return {
-            "status": "not_found",
-            "message": "Schedule not found for given project and process."
-        }
-
-    return build_schedule_response(
-        project_key=project_key,
-        process_name=process_name,
-        cron_expression=schedule,
-        timezone="Asia/Kolkata"  # change as needed
-    )
-
-
-frontend renderer
-
-if "cron_expression" in response:
-
-    next_runs = response.get("next_runs", [])
-    next_runs_text = "\n".join([f"- {run}" for run in next_runs])
-
-    content = f"""
-### ⏱ Exchange Schedule
-
-**Project:** {response.get("project_key")}
-**Process:** {response.get("process_name")}
-
-**Cron Expression:**  
-`{response.get("cron_expression")}`
-
-**Readable Format:**  
-{response.get("readable_schedule")}
-
-**Timezone:**  
-{response.get("timezone")}
-
-**Next Runs:**
-{next_runs_text}
-"""
-    await cl.Message(content=content).send()
-    return
+        data = response.json()
+        return data.get("response", "").strip()
