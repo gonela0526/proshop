@@ -1,156 +1,124 @@
 async def render_backend_response(response: dict):
 
     status = response.get("status")
+    intent = response.get("intent")
+    data = response.get("data", {})
 
-    # ----------------------------
-    # Clarification
-    # ----------------------------
+    # --------------------------------------------------
+    # CLARIFICATION
+    # --------------------------------------------------
     if status == "clarification_required":
         await render_clarification_buttons(response)
         return
 
-    # ----------------------------
-    # Success
-    # ----------------------------
+    # --------------------------------------------------
+    # SUCCESS
+    # --------------------------------------------------
     if status == "success":
 
-        # 1️⃣ Schedule Query
-        if  response.get("intent")=="schedule_query":
-            data = response.get("data", {})
+        # ==========================
+        # SCHEDULE
+        # ==========================
+        if intent == "schedule_query":
+
             content = f"""
 ### ⏱ Exchange Schedule
 
 **Project:** {data.get("project_key")}
 **Process:** {data.get("process_name")}
 
-**Cron Expression:**
+**Cron Expression:**  
 `{data.get("schedule")}`
 """
-            await cl.Message(
-                content=content,
-                actions=[
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "like"},
-                        label="👍"
-                    ),
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "dislike"},
-                        label="👎"
-                    )
-                ]
-            ).send()
+
+            await send_with_feedback(content)
             return
 
-        # 2️⃣ Failure Summary
-        if response.get("intent")=="failure_summary_query":
-            data = response.get("data",{})
-            lines = []
-            for f in data.get("failures"):
+        # ==========================
+        # FAILURE SUMMARY
+        # ==========================
+        if intent == "failure_summary_query":
+
+            failures = data.get("failures", [])
+            lines = ["### ❌ Recent Failures\n"]
+
+            for f in failures:
                 lines.append(
                     f"• **{f['defect_id']}** | {f['direction']} | {f['message']}"
                 )
 
-            content = "### ❌ Recent Failures\n\n" + "\n".join(lines)
-
-            await cl.Message(
-                content=content,
-                actions=[
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "like"},
-                        label="👍"
-                    ),
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "dislike"},
-                        label="👎"
-                    )
-                ]
-            ).send()
+            await send_with_feedback("\n".join(lines))
             return
 
-        # 3️⃣ Config Query
-        if "config_key" in response:
+        # ==========================
+        # CONFIG
+        # ==========================
+        if intent == "config_check":
+
             content = f"""
 ### ⚙ Configuration
 
-**Key:** {response.get("config_key")}
-**Value:** `{response.get("value")}`
+**Key:** {data.get("config_key")}
+**Value:** `{data.get("value")}`
 """
-            await cl.Message(
-                content=content,
-                actions=[
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "like"},
-                        label="👍"
-                    ),
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "dislike"},
-                        label="👎"
-                    )
-                ]
-            ).send()
+            await send_with_feedback(content)
             return
 
-        # 4️⃣ ✅ ADD THIS BLOCK HERE (Mapping Renderer)
-        if "mappings" in response and isinstance(response["mappings"], dict):
+        # ==========================
+        # FILTER
+        # ==========================
+        if intent == "filter_query":
+
+            content = f"""
+### 🔎 Filter Query
+
+**Key:** {data.get("config_key")}
+**Value:** `{data.get("value")}`
+"""
+            await send_with_feedback(content)
+            return
+
+        # ==========================
+        # MAPPING
+        # ==========================
+        if intent in ["mapping_query", "mapping_value_query", "mapping_list_query"]:
+
+            mappings = data.get("mappings", {})
 
             lines = []
-            lines.append("### 🔁 Field Mappings")
-            lines.append(f"**Project:** {response.get('project_key')}")
-            lines.append(f"**Process:** {response.get('process_name')}\n")
+            lines.append("### 🔁 Field Mappings\n")
+            lines.append(f"**Project:** {data.get('project_key')}")
+            lines.append(f"**Process:** {data.get('process_name')}\n")
 
-            for scenario, mappings in response["mappings"].items():
-
+            for scenario, items in mappings.items():
                 lines.append(f"#### 🧩 Scenario: {scenario}")
-
-                for m in mappings:
+                for m in items:
                     lines.append(
                         f"- **{m['source_field']}** → `{m['destination_field']}`"
                     )
-
                 lines.append("")
 
-            content = "\n".join(lines)
-
-            await cl.Message(
-                content=content,
-                actions=[
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "like"},
-                        label="👍"
-                    ),
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "dislike"},
-                        label="👎"
-                    )
-                ]
-            ).send()
+            await send_with_feedback("\n".join(lines))
             return
 
-        
-        # 5️⃣ Exchange History
-        if "results" in response and isinstance(response["results"], dict):
+        # ==========================
+        # EXCHANGE HISTORY
+        # ==========================
+        if intent == "defect_history_query":
 
-            lines = []
-            lines.append("### 🧾 Exchange History\n")
+            results = data.get("results", {})
 
-            for defect_id, data in response["results"].items():
+            lines = ["### 🧾 Exchange History\n"]
 
-                summary = data.get("summary", {})
-                history = data.get("history", [])
+            for defect_id, defect_data in results.items():
+
+                summary = defect_data.get("summary", {})
+                history = defect_data.get("history", [])
 
                 lines.append(f"## 🔎 {defect_id}")
                 lines.append(f"- Total Attempts: {summary.get('total_attempts')}")
                 lines.append(f"- Failed Attempts: {summary.get('failed_attempts')}")
-                lines.append(f"- Latest Status: {summary.get('latest_status')}")
-                lines.append("")
+                lines.append(f"- Latest Status: {summary.get('latest_status')}\n")
 
                 for h in history:
                     lines.append(
@@ -159,121 +127,62 @@ async def render_backend_response(response: dict):
 
                 lines.append("")
 
-            content = "\n".join(lines)
-
-            await cl.Message(
-                content=content,
-                actions=[
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "like"},
-                        label="👍"
-                    ),
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "dislike"},
-                        label="👎"
-                    )
-                ]
-            ).send()
+            await send_with_feedback("\n".join(lines))
             return
 
-        if "cron_expression" in response:
+        # ==========================
+        # TRANSFORMATION (LLM)
+        # ==========================
+        if intent == "transform_previous":
 
-            next_runs = response.get("next_runs", [])
-            next_runs_text = "\n".join([f"- {run}" for run in next_runs])
-
-            content = f"""
-        ### ⏱ Exchange Schedule
-
-        **Project:** {response.get("project_key")}
-        **Process:** {response.get("process_name")}
-
-        **Cron Expression:**  
-        `{response.get("cron_expression")}`
-
-        **Readable Format:**  
-        {response.get("readable_schedule")}
-
-        **Timezone:**  
-        {response.get("timezone")}
-
-        **Next Runs:**
-        {next_runs_text}
-        """
-            await cl.Message(
-                content=content,
-                actions=[
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "like"},
-                        label="👍"
-                    ),
-                    cl.Action(
-                        name="feedback",
-                        payload={"type": "dislike"},
-                        label="👎"
-                    )
-                ]
-            ).send()
+            await send_with_feedback(str(data))
             return
-        
-        # 5️⃣ Fallback JSON
-        await cl.Message(
-            content=f"```json\n{response}\n```"
-        ).send()
+
+        # ==========================
+        # FALLBACK SUCCESS
+        # ==========================
+        await send_with_feedback(f"```json\n{data}\n```")
         return
 
-    # ----------------------------
-    # Not found
-    # ----------------------------
+    # --------------------------------------------------
+    # NOT FOUND
+    # --------------------------------------------------
     if status == "not_found":
-        await cl.Message(
-            content=f"⚠ {response.get('message', 'No data found.')}",
-            actions=[
-                cl.Action(
-                    name="feedback",
-                    payload={"type": "like"},
-                    label="👍"
-                ),
-                cl.Action(
-                    name="feedback",
-                    payload={"type": "dislike"},
-                    label="👎"
-                )
-            ]
-        ).send()
+        await send_with_feedback(f"⚠ {data.get('message', 'No data found.')}")
         return
-    
 
+    # --------------------------------------------------
+    # UNKNOWN INTENT
+    # --------------------------------------------------
     if status == "unknown_intent":
-        await cl.Message(
-        content="⚠ I couldn't understand your request. Please try rephrasing.",
+        await send_with_feedback(
+            "⚠ I couldn't understand your request. Please try rephrasing."
+        )
+        return
+
+    # --------------------------------------------------
+    # ERROR
+    # --------------------------------------------------
+    if status == "error":
+        await send_with_feedback(f"❌ {data.get('message')}")
+        return
+
+    # --------------------------------------------------
+    # FINAL FALLBACK
+    # --------------------------------------------------
+    await send_with_feedback("⚠ Something unexpected happened.")
+
+
+
+
+
+
+
+async def send_with_feedback(content: str):
+    await cl.Message(
+        content=content,
         actions=[
-            cl.Action(
-                name="feedback",
-                payload={"type": "like"},
-                label="👍"
-            ),
-            cl.Action(
-                name="feedback",
-                payload={"type": "dislike"},
-                label="👎"
-            )
+            cl.Action(name="feedback", payload={"type": "like"}, label="👍"),
+            cl.Action(name="feedback", payload={"type": "dislike"}, label="👎"),
         ]
     ).send()
-        return
-
-    # Final fallback
-    await cl.Message(
-        content="⚠ Something unexpected happened."
-    ).send()
-
-
-    # ----------------------------
-    # Default fallback
-    # ----------------------------
-    await cl.Message(
-        content=f"⚠ {response}"
-    ).send()
-
