@@ -1,6 +1,153 @@
-Session: 7265f5a4-404d-471b-9f97-c8d376cef370
-Query: can you convert the above time to UTC timezone
-Session Data: {'oem': 'TATA', 'project_key': 'TASK30896', 'process_name': 'Tata2Visteon_Skylark', 'last_query': 'can you convert the above time to UTC timezone', 'pending_intent': 'schedule_query'}
-Status Code: 200
-RAW text:
-{"model":"deepseek-coder-v2:latest","created_at":"2026-02-18T18:25:07.746132318Z","message":{"role":"assistant","content":" ```json\n{\n  \"intent\": \"schedule_query\"\n}\n```"},"done_reason":"stop","done":true,"total_duration":269087609,"load_duration":18083334,"prompt_eval_count":86,"prompt_eval_duration":25235560,"eval_count":19,"eval_duration":223013422}
+llm_service.py
+
+def classify_intent(self, query: str):
+
+    prompt = f"""
+You are an intent classifier for an enterprise exchange monitoring system.
+
+Classify the user query into ONE of the following intents:
+
+1. schedule_query – asking about execution time or cron schedule
+2. config_check – asking about configuration settings
+3. filter_query – asking about JQL or filter configuration
+4. mapping_query – asking about field or value mappings
+5. defect_history_query – asking about specific defect details
+6. failure_summary_query – asking about failures or errors
+7. global_health_query – asking about overall system health
+8. transformation_query – asking to modify, convert, summarize, explain, or transform a previous response
+9. unknown – if none match
+
+Rules:
+- If the user is asking to convert timezone, summarize, reformat, explain, compare, filter previous output → transformation_query
+- If user references "above response", "previous result", "convert this", etc → transformation_query
+
+Return ONLY valid JSON:
+
+{
+  "intent": "<one_of_the_above>"
+}
+
+User Query:
+"{query}"
+"""
+
+    response_text = self._call_llm(prompt)
+    return self._extract_json(response_text)
+
+
+
+
+We must extract JSON safely.
+
+---
+
+## ✅ Add Safe JSON Extractor
+
+```python
+import json
+import re
+
+def _extract_json(self, text: str):
+    try:
+        # Remove markdown blocks if present
+        text = re.sub(r"```json", "", text)
+        text = re.sub(r"```", "", text)
+
+        # Extract first {...}
+        match = re.search(r"\{.*\}", text, re.DOTALL)
+        if not match:
+            return {"intent": "unknown"}
+
+        return json.loads(match.group())
+
+    except Exception:
+        return {"intent": "unknown"}
+
+
+def _call_llm(self, prompt: str):
+
+    response = requests.post(
+        "http://localhost:11434/api/chat",
+        json={
+            "model": "deepseek-coder-v2",
+            "messages": [
+                {"role": "user", "content": prompt}
+            ],
+            "stream": False
+        },
+        timeout=30
+    )
+
+    data = response.json()
+
+    return data["message"]["content"]
+
+
+
+def transform_response(self, previous_response: dict, user_query: str):
+
+    prompt = f"""
+You are an AI assistant.
+
+Below is a structured JSON response from the system:
+
+{json.dumps(previous_response, indent=2)}
+
+User wants:
+"{user_query}"
+
+Transform the previous response accordingly.
+
+Rules:
+- If timezone conversion requested → convert time
+- If summary requested → summarize
+- If explanation requested → explain
+- If filtering requested → filter relevant parts
+- Preserve accuracy
+- Return structured JSON OR formatted text
+
+Return ONLY valid JSON:
+
+{
+  "status": "success",
+  "transformed_output": "<result_here>"
+}
+"""
+
+    response_text = self._call_llm(prompt)
+    return self._extract_json(response_text)
+
+
+
+execute_intent() from query
+
+result = ...
+
+self.session_service.update_context(
+    session_id,
+    new_last_response=result
+)
+
+return result
+
+
+inside hande_query
+
+ai_intent = self.llm.classify_intent(query)
+intent = ai_intent.get("intent", "unknown")
+
+if intent == "transformation_query":
+
+    session_data = self.session_service.get_session(session_id)
+    last_response = session_data.get("last_response")
+
+    if not last_response:
+        return {
+            "status": "error",
+            "message": "No previous response available to transform.",
+            "session_id": session_id
+        }
+
+    return self.llm.transform_response(last_response, query)
+
+
