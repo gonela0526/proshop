@@ -5,21 +5,130 @@ import json
 class LLMService:
 
     def __init__(self):
-        self.url = "http://localhost:11434/api/generate"
-        self.model = "llama3:8b"
+        self.url = "http://localhost:11434/api/chat"
+        self.model = "llama3:8b"   # change if needed
 
-    def ask(self, prompt: str, temperature: float = 0.2):
+    def classify_intent(self, query: str):
 
-        response = requests.post(
-            self.url,
-            json={
-                "model": self.model,
-                "prompt": prompt,
-                "temperature": temperature,
-                "stream": False
-            },
-            timeout=60
-        )
+        prompt = f"""
+You are an intent classifier.
 
-        data = response.json()
-        return data.get("response", "").strip()
+Return JSON only.
+
+Possible intents:
+schedule_query
+config_check
+filter_query
+mapping_query
+defect_history_query
+failure_summary_query
+top_failure_reason_query
+global_health_query
+unknown
+
+Query:
+{query}
+"""
+
+        response = self._call_llm(prompt)
+
+        try:
+            return json.loads(response)
+        except:
+            return {"intent": "unknown"}
+
+    def enhance_response(self, user_query: str, system_response: dict):
+
+        prompt = f"""
+User asked:
+{user_query}
+
+System generated:
+{json.dumps(system_response)}
+
+If user is asking for:
+- timezone conversion
+- explanation
+- filtering
+- summarization
+- transformation
+
+Return improved response in clean markdown.
+Otherwise return EXACT original JSON.
+"""
+
+        response = self._call_llm(prompt)
+
+        try:
+            return json.loads(response)
+        except:
+            return {"ai_response": response}
+
+    def _call_llm(self, prompt: str):
+
+        payload = {
+            "model": self.model,
+            "messages": [
+                {"role": "user", "content": prompt}
+            ]
+        }
+
+        res = requests.post(self.url, json=payload)
+        data = res.json()
+
+        return data["message"]["content"]
+
+
+
+
+handle_query
+
+intent_data = self.classifier.classify(query)
+
+if not intent_data:
+    return {
+        "status": "unknown_intent",
+        "message": "Unable to determine query intent.",
+        "session_id": session_id
+    }
+
+replace with
+
+
+intent_data = self.classifier.classify(query)
+
+# 🔥 HYBRID FALLBACK
+if not intent_data:
+    ai_intent = self.llm.classify_intent(query)
+    intent = ai_intent.get("intent")
+
+    if intent and intent != "unknown":
+        intent_data = {
+            "intent": intent,
+            "requires": self.INTENT_REQUIREMENTS.get(intent, []),
+            "aggregation_allowed": True
+        }
+    else:
+        return {
+            "status": "unknown_intent",
+            "message": "Unable to determine query intent.",
+            "session_id": session_id
+        }
+
+
+
+
+--execute_inteng
+
+enhanced = self.llm.enhance_response(query, result)
+
+# If AI returned JSON → use it
+if isinstance(enhanced, dict):
+    return enhanced
+
+# If AI returned text → wrap
+return {
+    "status": "success",
+    "ai_response": enhanced,
+    "session_id": session_id
+}
