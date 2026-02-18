@@ -1,14 +1,18 @@
 def _execute_intent(self, intent: str, context: Dict, query: str, session_id: str):
 
-        print("---- EXECUTING INTENT ----")
-        print("INTENT:", intent)
-        print("CONTEXT:", context)
+    print("---- EXECUTING INTENT ----")
+    print("INTENT:", intent)
+    print("CONTEXT:", context)
 
-        # Clear pending intent
-        self.session_service.update_context(
-            session_id,
-            new_pending_intent=None
-        )
+    # Clear pending intent
+    self.session_service.update_context(
+        session_id,
+        new_pending_intent=None
+    )
+
+    result = None
+
+    try:
 
         # ----------------------------
         # SCHEDULE
@@ -18,293 +22,263 @@ def _execute_intent(self, intent: str, context: Dict, query: str, session_id: st
                 context["project_key"],
                 context["process_name"]
             )
-            return self._standardize_response(result, intent, session_id)
 
         # ----------------------------
         # CONFIG
         # ----------------------------
-        if intent == "config_check":
+        elif intent == "config_check":
             result = self.config_service.get_config_value_by_query(
                 context["project_key"],
                 context["process_name"],
                 query
             )
-            return self._standardize_response(result, intent, session_id)
 
-        if intent == "filter_query":
+        elif intent == "filter_query":
             result = self.config_service.get_filter_query(
                 context["project_key"],
                 context["process_name"]
             )
-            return self._standardize_response(result, intent, session_id)
+
         # ----------------------------
         # MAPPING
         # ----------------------------
-        if intent in ["mapping_query", "mapping_value_query"]:
+        elif intent in ["mapping_query", "mapping_value_query"]:
             result = self.config_service.get_mapping_by_query(
                 context["project_key"],
                 context["process_name"],
                 query
             )
-            return self._standardize_response(result, intent, session_id)
 
-        if intent == "mapping_list_query":
+        elif intent == "mapping_list_query":
             result = self.config_service.get_all_mappings(
                 context["project_key"]
             )
-            return self._standardize_response(result, intent, session_id)
 
         # ----------------------------
         # EXCHANGE HISTORY
         # ----------------------------
-        if intent == "defect_history_query":
-            return self._standardize_response(self.exchange_service.get_history(query), intent, session_id)
+        elif intent == "defect_history_query":
+            result = self.exchange_service.get_history(query)
 
-        if intent == "failure_summary_query":
-            return self._standardize_response(self.exchange_service.get_failure_summary(query), intent, session_id)
+        elif intent == "failure_summary_query":
+            result = self.exchange_service.get_failure_summary(query)
 
-        if intent == "top_failure_reason_query":
-            return self._standardize_response(self.exchange_service.get_top_failure_reasons(query), intent, session_id)
+        elif intent == "top_failure_reason_query":
+            result = self.exchange_service.get_top_failure_reasons(query)
 
-        if intent == "global_health_query":
-            return self._standardize_response(self.exchange_service.get_global_health(), intent, session_id)
-        if intent == "project_validation":
-            return self._standardize_response({
+        elif intent == "global_health_query":
+            result = self.exchange_service.get_global_health()
+
+        elif intent == "project_validation":
+            result = {
                 "status": "success",
                 "project_key": context["project_key"]
-            }, intent, session_id)
+            }
 
-        # ----------------------------
-        # FALLBACK
-        # ----------------------------
-        result =  self._standardize_response({
-            "status": "unknown_intent",
-            "message": "Intent not supported.",
-            "session_id": session_id
-        }, intent, session_id)
+        else:
+            return {
+                "status": "unknown_intent",
+                "intent": intent,
+                "message": "Intent not supported.",
+                "session_id": session_id
+            }
 
-        if result and isinstance(result,dict):
-            self.session_service.update_context(
-                session_id,
-                new_last_response=result
-            )
-        
-
-        if isinstance(result,dict):
-            result["session_id"] = session_id
-
-        self.session_service.update_context(
-            session_id,
-            new_last_response = result,
-            new_pending_intent=
-        )
-
-
-        # If AI returned text → wrap
+    except Exception as e:
+        print("EXECUTION ERROR:", str(e))
         return {
-            "status": "success",
-            "ai_response": enhanced,
+            "status": "error",
+            "intent": intent,
+            "message": str(e),
             "session_id": session_id
         }
-    
+
+    # -------------------------------------------------
+    # STANDARDIZE RESPONSE
+    # -------------------------------------------------
+
+    if not isinstance(result, dict):
+        result = {"data": result}
+
+    standardized = {
+        "status": result.get("status", "success"),
+        "intent": intent,
+        "data": result,
+        "session_id": session_id
+    }
+
+    # Store last response for transformation
+    self.session_service.update_context(
+        session_id,
+        new_last_response=standardized
+    )
+
+    return standardized
+
 
 
 
 
 def handle_query(self, session_id: str, query: str) -> Dict:
 
-        print("---- HANDLE QUERY START ----")
-        print("Session:", session_id)
-        print("Query:", query)
-        print("Session Data:", self.session_service.get_session(session_id))
+    print("---- HANDLE QUERY START ----")
+    print("Session:", session_id)
+    print("Query:", query)
 
-        # ------------------------------------------------------
-        # 1️⃣ HANDLE SELECTION EVENTS
-        # ------------------------------------------------------
+    session_data = self.session_service.get_session(session_id)
+    print("Session Data:", session_data)
 
-        if query.startswith("__select_oem__="):
-            selected_oem = query.split("=")[1]
+    # ------------------------------------------------------
+    # 1️⃣ HANDLE SELECTION EVENTS
+    # ------------------------------------------------------
 
-            self.session_service.update_context(
-                session_id,
-                new_oem=selected_oem
-            )
+    if query.startswith("__select_oem__="):
+        selected_oem = query.split("=")[1]
+        self.session_service.update_context(session_id, new_oem=selected_oem)
+        updated = self.session_service.get_session(session_id)
+        return self._resume_pending_execution(session_id, updated)
 
-            session_data = self.session_service.get_session(session_id)
-            return self._resume_pending_execution(session_id, session_data)
-        
-        if query.startswith("__select_project__="):
-            selected_project = query.split("=")[1]
+    if query.startswith("__select_project__="):
+        selected_project = query.split("=")[1]
+        self.session_service.update_context(session_id, new_project=selected_project)
+        updated = self.session_service.get_session(session_id)
+        return self._resume_pending_execution(session_id, updated)
 
-            self.session_service.update_context(
-                session_id,
-                new_project=selected_project
-            )
+    if query.startswith("__select_process__="):
+        selected_process = query.split("=")[1]
+        self.session_service.update_context(session_id, new_process=selected_process)
+        updated = self.session_service.get_session(session_id)
+        return self._resume_pending_execution(session_id, updated)
 
-            print("AFTER PROJECT UPDATE:",
-            self.session_service.get_session(session_id))
+    # ------------------------------------------------------
+    # 2️⃣ STORE LAST QUERY
+    # ------------------------------------------------------
 
-            session_data = self.session_service.get_session(session_id)
-            return self._resume_pending_execution(session_id, session_data)
+    self.session_service.update_context(
+        session_id,
+        new_last_query=query
+    )
 
-        if query.startswith("__select_process__="):
-            selected_process = query.split("=")[1]
+    # ------------------------------------------------------
+    # 3️⃣ TRY DETERMINISTIC CLASSIFIER
+    # ------------------------------------------------------
 
-            self.session_service.update_context(
-                session_id,
-                new_process=selected_process
-            )
+    intent_data = self.classifier.classify(query)
 
-            session_data = self.session_service.get_session(session_id)
-            return self._resume_pending_execution(session_id, session_data)
+    # ------------------------------------------------------
+    # 4️⃣ FALLBACK TO LLM
+    # ------------------------------------------------------
 
-        # ------------------------------------------------------
-        # 2️⃣ STORE LAST QUERY
-        # ------------------------------------------------------
+    if not intent_data:
+        ai_intent = self.llm.classify_intent(query)
 
-        self.session_service.update_context(
-            session_id,
-            new_last_query=query
-        )
-
-        # ------------------------------------------------------
-        # 3️⃣ RESOLVE CONTEXT
-        # ------------------------------------------------------
-
-        resolution = self.resolver.resolve(session_id, query)
-
-        if "error" in resolution:
-            return resolution
-
-        context = resolution["context"]
-        ambiguity = resolution["ambiguity"]
-
-        # ------------------------------------------------------
-        # 4️⃣ HANDLE AMBIGUITY
-        # ------------------------------------------------------
-
-        if ambiguity:
-
-            intent_data = self.classifier.classify(query)
-
-            if intent_data:
-                self.session_service.update_context(
-                    session_id,
-                    new_pending_intent=intent_data["intent"]
-                )
-
+        if not ai_intent:
             return {
-                "status": "clarification_required",
-                "details": ambiguity,
+                "status": "unknown_intent",
+                "intent": None,
+                "message": "Unable to determine query intent.",
                 "session_id": session_id
             }
 
-        # ------------------------------------------------------
-        # 5️⃣ CLASSIFY INTENT
-        # ------------------------------------------------------
+        intent = ai_intent.get("intent")
 
-        intent_data = self.classifier.classify(query)
+        # 🔥 AI TRANSFORMATION HANDLER
+        if intent == "transform_previous":
+            previous = session_data.get("last_response")
 
-        if not intent_data:
-            ai_intent = self.llm.classify_intent(query)
-
-            if not ai_intent:
+            if not previous:
                 return {
-                    "status":"unknown_intent",
-                    "message":"Unable to determine query intent.",
-                    "session_id":session_id
-                }
-            intent = ai_intent.get("intent")
-
-            if intent == "transform_previous":
-                previous = session_data.get("last_response")
-
-                if not previous:
-                    return {
-                        "status":"error",
-                        "message":"No previous result available to transfrom",
-                        "session_id":session_id
-                    }
-                transformed = self.llm.transform_response(previous,query)
-                return{
-                    "status":"success",
-                    "intent":"transform_previous",
-                    "result":transformed,
-                    "session_id":session_id
-                }
-            
-        intent = intent_data["intent"]
-        requires = intent_data.get("requires", [])
-
-        # ------------------------------------------------------
-        # 6️⃣ CHECK REQUIRED CONTEXT
-        # ------------------------------------------------------
-
-        missing = []
-
-        if "project" in requires and not context.get("oem"):
-            missing.append("oem")
-
-        if "project" in requires and not context.get("project_key"):
-            missing.append("project")
-
-        if "process" in requires and not context.get("process_name"):
-            missing.append("process")
-
-        if missing:
-
-            # Always store pending intent
-            self.session_service.update_context(
-                session_id,
-                new_pending_intent=intent
-            )
-
-            # 🔴 STEP 1: OEM missing → ask OEM FIRST
-            if not context.get("oem"):
-                oems = self.config_service.list_oems()
-                print("ASKING FOR OEM")
-                print(f"oem_required: {oems}")
-                return {
-                    "status": "clarification_required",
-                    "details": {
-                        "oem_required": oems
-                    },
+                    "status": "error",
+                    "intent": intent,
+                    "message": "No previous result available.",
                     "session_id": session_id
                 }
 
-            # 🟡 STEP 2: Project missing → ask project
-            if "project" in missing:
-                projects = self.config_service.list_projects_by_oem(
-                    context.get("oem")
-                )
-                print("ASKING FOR PROJECT")
-                return {
-                    "status": "clarification_required",
-                    "details": {
-                        "project_required": projects
-                    },
-                    "session_id": session_id
-                }
+            transformed = self.llm.transform_response(previous, query)
 
-            # 🟢 STEP 3: Process missing → ask process
-            if "process" in missing:
-                processes = self.config_service.list_processes(
-                    context.get("project_key")
-                )
-                print("ASKING FOR PROCESS")
-                return {
-                    "status": "clarification_required",
-                    "details": {
-                        "process_required": processes
-                    },
-                    "session_id": session_id
-                }
+            return {
+                "status": "success",
+                "intent": intent,
+                "data": transformed,
+                "session_id": session_id
+            }
+
+        intent_data = {"intent": intent, "requires": []}
+
+    intent = intent_data["intent"]
+    requires = intent_data.get("requires", [])
+
+    context = session_data
+    missing = []
+
+    # ------------------------------------------------------
+    # 5️⃣ CHECK CONTEXT REQUIREMENTS
+    # ------------------------------------------------------
+
+    if "project" in requires and not context.get("oem"):
+        missing.append("oem")
+
+    if "project" in requires and not context.get("project_key"):
+        missing.append("project")
+
+    if "process" in requires and not context.get("process_name"):
+        missing.append("process")
+
+    if missing:
+
+        self.session_service.update_context(
+            session_id,
+            new_pending_intent=intent
+        )
+
+        if "oem" in missing:
+            return {
+                "status": "clarification_required",
+                "intent": intent,
+                "details": {
+                    "oem_required": self.config_service.list_oems()
+                },
+                "session_id": session_id
+            }
+
+        if "project" in missing:
+            return {
+                "status": "clarification_required",
+                "intent": intent,
+                "details": {
+                    "project_required": self.config_service.list_projects_by_oem(context.get("oem"))
+                },
+                "session_id": session_id
+            }
+
+        if "process" in missing:
+            return {
+                "status": "clarification_required",
+                "intent": intent,
+                "details": {
+                    "process_required": self.config_service.list_processes(context.get("project_key"))
+                },
+                "session_id": session_id
+            }
+
+    # ------------------------------------------------------
+    # 6️⃣ EXECUTE
+    # ------------------------------------------------------
+
+    return self._execute_intent(intent, context, query, session_id)
 
 
-        # ------------------------------------------------------
-        # 7️⃣ EXECUTE
-        # ------------------------------------------------------
-        print("FINAL CONTEXT BEFORE EXECUTION:", context)
 
-        return self._execute_intent(intent, context, query, session_id)
 
+
+
+if response.get("intent") == "schedule_query":
+    data = response.get("data", {})
+    content = f"""
+### ⏱ Exchange Schedule
+
+**Project:** {data.get("project_key")}
+**Process:** {data.get("process_name")}
+
+**Cron Expression:**
+`{data.get("schedule")}`
+"""
