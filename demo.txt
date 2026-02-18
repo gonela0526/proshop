@@ -83,10 +83,20 @@ def _execute_intent(self, intent: str, context: Dict, query: str, session_id: st
             "session_id": session_id
         }, intent, session_id)
 
+        if result and isinstance(result,dict):
+            self.session_service.update_context(
+                session_id,
+                new_last_response=result
+            )
+        
+
+        if isinstance(result,dict):
+            result["session_id"] = session_id
+
         self.session_service.update_context(
             session_id,
             new_last_response = result,
-            new_pending_intent=None
+            new_pending_intent=
         )
 
 
@@ -97,6 +107,8 @@ def _execute_intent(self, intent: str, context: Dict, query: str, session_id: st
             "session_id": session_id
         }
     
+
+
 
 
 def handle_query(self, session_id: str, query: str) -> Dict:
@@ -195,25 +207,32 @@ def handle_query(self, session_id: str, query: str) -> Dict:
 
         if not intent_data:
             ai_intent = self.llm.classify_intent(query)
-            intent = ai_intent.get("intent","unknown")
-            
-            if intent == "transformation_query":
-                session_data = self.session_service.get_session(session_id)
-                last_reponse = session_data.get()
 
-            if intent and intent != "unknown":
-                intent_data = {
-                    "intent": intent,
-                    "requires": self.INTENT_REQUIREMENTS.get(intent, []),
-                    "aggregation_allowed": True
-                }
-            else:
+            if not ai_intent:
                 return {
-                    "status": "unknown_intent",
-                    "message": "Unable to determine query intent.",
-                    "session_id": session_id
+                    "status":"unknown_intent",
+                    "message":"Unable to determine query intent.",
+                    "session_id":session_id
                 }
+            intent = ai_intent.get("intent")
 
+            if intent == "transform_previous":
+                previous = session_data.get("last_response")
+
+                if not previous:
+                    return {
+                        "status":"error",
+                        "message":"No previous result available to transfrom",
+                        "session_id":session_id
+                    }
+                transformed = self.llm.transform_response(previous,query)
+                return{
+                    "status":"success",
+                    "intent":"transform_previous",
+                    "result":transformed,
+                    "session_id":session_id
+                }
+            
         intent = intent_data["intent"]
         requires = intent_data.get("requires", [])
 
@@ -288,5 +307,4 @@ def handle_query(self, session_id: str, query: str) -> Dict:
         print("FINAL CONTEXT BEFORE EXECUTION:", context)
 
         return self._execute_intent(intent, context, query, session_id)
-
 
