@@ -1,279 +1,23 @@
-def _execute_intent(self, intent: str, context: Dict, query: str, session_id: str):
-
-    print("---- EXECUTING INTENT ----")
-    print("INTENT:", intent)
-    print("CONTEXT:", context)
-
-    # Clear pending intent
-    self.session_service.update_context(
-        session_id,
-        new_pending_intent=None
-    )
-
-    result = None
-
-    try:
-
-        # ----------------------------
-        # SCHEDULE
-        # ----------------------------
-        if intent == "schedule_query":
-            result = self.config_service.get_schedule(
-                context["project_key"],
-                context["process_name"]
-            )
-
-        # ----------------------------
-        # CONFIG
-        # ----------------------------
-        elif intent == "config_check":
-            result = self.config_service.get_config_value_by_query(
-                context["project_key"],
-                context["process_name"],
-                query
-            )
-
-        elif intent == "filter_query":
-            result = self.config_service.get_filter_query(
-                context["project_key"],
-                context["process_name"]
-            )
-
-        # ----------------------------
-        # MAPPING
-        # ----------------------------
-        elif intent in ["mapping_query", "mapping_value_query"]:
-            result = self.config_service.get_mapping_by_query(
-                context["project_key"],
-                context["process_name"],
-                query
-            )
-
-        elif intent == "mapping_list_query":
-            result = self.config_service.get_all_mappings(
-                context["project_key"]
-            )
-
-        # ----------------------------
-        # EXCHANGE HISTORY
-        # ----------------------------
-        elif intent == "defect_history_query":
-            result = self.exchange_service.get_history(query)
-
-        elif intent == "failure_summary_query":
-            result = self.exchange_service.get_failure_summary(query)
-
-        elif intent == "top_failure_reason_query":
-            result = self.exchange_service.get_top_failure_reasons(query)
-
-        elif intent == "global_health_query":
-            result = self.exchange_service.get_global_health()
-
-        elif intent == "project_validation":
-            result = {
-                "status": "success",
-                "project_key": context["project_key"]
-            }
-
-        else:
-            return {
-                "status": "unknown_intent",
-                "intent": intent,
-                "message": "Intent not supported.",
-                "session_id": session_id
-            }
-
-    except Exception as e:
-        print("EXECUTION ERROR:", str(e))
-        return {
-            "status": "error",
-            "intent": intent,
-            "message": str(e),
-            "session_id": session_id
-        }
-
-    # -------------------------------------------------
-    # STANDARDIZE RESPONSE
-    # -------------------------------------------------
-
-    if not isinstance(result, dict):
-        result = {"data": result}
-
-    standardized = {
-        "status": result.get("status", "success"),
-        "intent": intent,
-        "data": result,
-        "session_id": session_id
-    }
-
-    # Store last response for transformation
-    self.session_service.update_context(
-        session_id,
-        new_last_response=standardized
-    )
-
-    return standardized
-
-
-
-
-
-def handle_query(self, session_id: str, query: str) -> Dict:
-
-    print("---- HANDLE QUERY START ----")
-    print("Session:", session_id)
-    print("Query:", query)
-
-    session_data = self.session_service.get_session(session_id)
-    print("Session Data:", session_data)
-
-    # ------------------------------------------------------
-    # 1️⃣ HANDLE SELECTION EVENTS
-    # ------------------------------------------------------
-
-    if query.startswith("__select_oem__="):
-        selected_oem = query.split("=")[1]
-        self.session_service.update_context(session_id, new_oem=selected_oem)
-        updated = self.session_service.get_session(session_id)
-        return self._resume_pending_execution(session_id, updated)
-
-    if query.startswith("__select_project__="):
-        selected_project = query.split("=")[1]
-        self.session_service.update_context(session_id, new_project=selected_project)
-        updated = self.session_service.get_session(session_id)
-        return self._resume_pending_execution(session_id, updated)
-
-    if query.startswith("__select_process__="):
-        selected_process = query.split("=")[1]
-        self.session_service.update_context(session_id, new_process=selected_process)
-        updated = self.session_service.get_session(session_id)
-        return self._resume_pending_execution(session_id, updated)
-
-    # ------------------------------------------------------
-    # 2️⃣ STORE LAST QUERY
-    # ------------------------------------------------------
-
-    self.session_service.update_context(
-        session_id,
-        new_last_query=query
-    )
-
-    # ------------------------------------------------------
-    # 3️⃣ TRY DETERMINISTIC CLASSIFIER
-    # ------------------------------------------------------
-
-    intent_data = self.classifier.classify(query)
-
-    # ------------------------------------------------------
-    # 4️⃣ FALLBACK TO LLM
-    # ------------------------------------------------------
-
-    if not intent_data:
-        ai_intent = self.llm.classify_intent(query)
-
-        if not ai_intent:
-            return {
-                "status": "unknown_intent",
-                "intent": None,
-                "message": "Unable to determine query intent.",
-                "session_id": session_id
-            }
-
-        intent = ai_intent.get("intent")
-
-        # 🔥 AI TRANSFORMATION HANDLER
-        if intent == "transform_previous":
-            previous = session_data.get("last_response")
-
-            if not previous:
-                return {
-                    "status": "error",
-                    "intent": intent,
-                    "message": "No previous result available.",
-                    "session_id": session_id
-                }
-
-            transformed = self.llm.transform_response(previous, query)
-
-            return {
-                "status": "success",
-                "intent": intent,
-                "data": transformed,
-                "session_id": session_id
-            }
-
-        intent_data = {"intent": intent, "requires": []}
-
-    intent = intent_data["intent"]
-    requires = intent_data.get("requires", [])
-
-    context = session_data
-    missing = []
-
-    # ------------------------------------------------------
-    # 5️⃣ CHECK CONTEXT REQUIREMENTS
-    # ------------------------------------------------------
-
-    if "project" in requires and not context.get("oem"):
-        missing.append("oem")
-
-    if "project" in requires and not context.get("project_key"):
-        missing.append("project")
-
-    if "process" in requires and not context.get("process_name"):
-        missing.append("process")
-
-    if missing:
-
-        self.session_service.update_context(
-            session_id,
-            new_pending_intent=intent
-        )
-
-        if "oem" in missing:
-            return {
-                "status": "clarification_required",
-                "intent": intent,
-                "details": {
-                    "oem_required": self.config_service.list_oems()
-                },
-                "session_id": session_id
-            }
-
-        if "project" in missing:
-            return {
-                "status": "clarification_required",
-                "intent": intent,
-                "details": {
-                    "project_required": self.config_service.list_projects_by_oem(context.get("oem"))
-                },
-                "session_id": session_id
-            }
-
-        if "process" in missing:
-            return {
-                "status": "clarification_required",
-                "intent": intent,
-                "details": {
-                    "process_required": self.config_service.list_processes(context.get("project_key"))
-                },
-                "session_id": session_id
-            }
-
-    # ------------------------------------------------------
-    # 6️⃣ EXECUTE
-    # ------------------------------------------------------
-
-    return self._execute_intent(intent, context, query, session_id)
-
-
-
-
-
-
-if response.get("intent") == "schedule_query":
-    data = response.get("data", {})
-    content = f"""
+async def render_backend_response(response: dict):
+
+    status = response.get("status")
+
+    # ----------------------------
+    # Clarification
+    # ----------------------------
+    if status == "clarification_required":
+        await render_clarification_buttons(response)
+        return
+
+    # ----------------------------
+    # Success
+    # ----------------------------
+    if status == "success":
+
+        # 1️⃣ Schedule Query
+        if  response.get("intent")=="schedule_query":
+            data = response.get("data", {})
+            content = f"""
 ### ⏱ Exchange Schedule
 
 **Project:** {data.get("project_key")}
@@ -282,3 +26,254 @@ if response.get("intent") == "schedule_query":
 **Cron Expression:**
 `{data.get("schedule")}`
 """
+            await cl.Message(
+                content=content,
+                actions=[
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "like"},
+                        label="👍"
+                    ),
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "dislike"},
+                        label="👎"
+                    )
+                ]
+            ).send()
+            return
+
+        # 2️⃣ Failure Summary
+        if response.get("intent")=="failure_summary_query":
+            data = response.get("data",{})
+            lines = []
+            for f in data.get("failures"):
+                lines.append(
+                    f"• **{f['defect_id']}** | {f['direction']} | {f['message']}"
+                )
+
+            content = "### ❌ Recent Failures\n\n" + "\n".join(lines)
+
+            await cl.Message(
+                content=content,
+                actions=[
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "like"},
+                        label="👍"
+                    ),
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "dislike"},
+                        label="👎"
+                    )
+                ]
+            ).send()
+            return
+
+        # 3️⃣ Config Query
+        if "config_key" in response:
+            content = f"""
+### ⚙ Configuration
+
+**Key:** {response.get("config_key")}
+**Value:** `{response.get("value")}`
+"""
+            await cl.Message(
+                content=content,
+                actions=[
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "like"},
+                        label="👍"
+                    ),
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "dislike"},
+                        label="👎"
+                    )
+                ]
+            ).send()
+            return
+
+        # 4️⃣ ✅ ADD THIS BLOCK HERE (Mapping Renderer)
+        if "mappings" in response and isinstance(response["mappings"], dict):
+
+            lines = []
+            lines.append("### 🔁 Field Mappings")
+            lines.append(f"**Project:** {response.get('project_key')}")
+            lines.append(f"**Process:** {response.get('process_name')}\n")
+
+            for scenario, mappings in response["mappings"].items():
+
+                lines.append(f"#### 🧩 Scenario: {scenario}")
+
+                for m in mappings:
+                    lines.append(
+                        f"- **{m['source_field']}** → `{m['destination_field']}`"
+                    )
+
+                lines.append("")
+
+            content = "\n".join(lines)
+
+            await cl.Message(
+                content=content,
+                actions=[
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "like"},
+                        label="👍"
+                    ),
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "dislike"},
+                        label="👎"
+                    )
+                ]
+            ).send()
+            return
+
+        
+        # 5️⃣ Exchange History
+        if "results" in response and isinstance(response["results"], dict):
+
+            lines = []
+            lines.append("### 🧾 Exchange History\n")
+
+            for defect_id, data in response["results"].items():
+
+                summary = data.get("summary", {})
+                history = data.get("history", [])
+
+                lines.append(f"## 🔎 {defect_id}")
+                lines.append(f"- Total Attempts: {summary.get('total_attempts')}")
+                lines.append(f"- Failed Attempts: {summary.get('failed_attempts')}")
+                lines.append(f"- Latest Status: {summary.get('latest_status')}")
+                lines.append("")
+
+                for h in history:
+                    lines.append(
+                        f"• {h['timestamp']} | {h['direction']} | {h['exchange_status']}"
+                    )
+
+                lines.append("")
+
+            content = "\n".join(lines)
+
+            await cl.Message(
+                content=content,
+                actions=[
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "like"},
+                        label="👍"
+                    ),
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "dislike"},
+                        label="👎"
+                    )
+                ]
+            ).send()
+            return
+
+        if "cron_expression" in response:
+
+            next_runs = response.get("next_runs", [])
+            next_runs_text = "\n".join([f"- {run}" for run in next_runs])
+
+            content = f"""
+        ### ⏱ Exchange Schedule
+
+        **Project:** {response.get("project_key")}
+        **Process:** {response.get("process_name")}
+
+        **Cron Expression:**  
+        `{response.get("cron_expression")}`
+
+        **Readable Format:**  
+        {response.get("readable_schedule")}
+
+        **Timezone:**  
+        {response.get("timezone")}
+
+        **Next Runs:**
+        {next_runs_text}
+        """
+            await cl.Message(
+                content=content,
+                actions=[
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "like"},
+                        label="👍"
+                    ),
+                    cl.Action(
+                        name="feedback",
+                        payload={"type": "dislike"},
+                        label="👎"
+                    )
+                ]
+            ).send()
+            return
+        
+        # 5️⃣ Fallback JSON
+        await cl.Message(
+            content=f"```json\n{response}\n```"
+        ).send()
+        return
+
+    # ----------------------------
+    # Not found
+    # ----------------------------
+    if status == "not_found":
+        await cl.Message(
+            content=f"⚠ {response.get('message', 'No data found.')}",
+            actions=[
+                cl.Action(
+                    name="feedback",
+                    payload={"type": "like"},
+                    label="👍"
+                ),
+                cl.Action(
+                    name="feedback",
+                    payload={"type": "dislike"},
+                    label="👎"
+                )
+            ]
+        ).send()
+        return
+    
+
+    if status == "unknown_intent":
+        await cl.Message(
+        content="⚠ I couldn't understand your request. Please try rephrasing.",
+        actions=[
+            cl.Action(
+                name="feedback",
+                payload={"type": "like"},
+                label="👍"
+            ),
+            cl.Action(
+                name="feedback",
+                payload={"type": "dislike"},
+                label="👎"
+            )
+        ]
+    ).send()
+        return
+
+    # Final fallback
+    await cl.Message(
+        content="⚠ Something unexpected happened."
+    ).send()
+
+
+    # ----------------------------
+    # Default fallback
+    # ----------------------------
+    await cl.Message(
+        content=f"⚠ {response}"
+    ).send()
+
