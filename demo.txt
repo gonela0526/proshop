@@ -1,29 +1,359 @@
-def transform_response(self, previous_data: dict, user_query: str) -> str:
+from typing import Dict
+from app.router.context_resolver import ContextResolver
+from app.router.intent_classifier import IntentClassifier
+from app.services.config_service import ConfigService
+from app.exchange_history.service import ExchangeHistoryService
+from app.session.session_service import SessionService
+from app.ai.llm_service import LLMService
 
-    prompt = f"""
-You are a structured data reasoning assistant.
 
-You are given system-generated JSON data.
-The user is asking a follow-up question about that data.
+class QueryRouter:
 
-IMPORTANT RULES:
+    def __init__(self):
+        self.resolver = ContextResolver()
+        self.classifier = IntentClassifier()
+        self.config_service = ConfigService()
+        self.exchange_service = ExchangeHistoryService()
+        self.session_service = SessionService()
+        self.llm = LLMService()
 
-1. Only use the provided JSON.
-2. Do NOT hallucinate fields.
-3. If user asks about a specific field (e.g., Priority, Variant, Severity),
-   filter and return ONLY the relevant subset.
-4. If user asks about value mappings, return only value-level mappings.
-5. If field is not found, clearly state:
-   "Field not found in the previous result."
-6. If conversion is requested (timezone/format), modify only relevant fields.
-7. Do NOT return JSON.
-8. Respond in clean, structured markdown.
+    # ======================================================
+    # RESPONSE STANDARDIZER
+    # ======================================================
 
-Previous Data:
+    def _response(self, session_id, intent, status, data, store=True):
+
+        standardized = {
+            "status": status,
+            "intent": intent,
+            "data": data,
+            "session_id": session_id
+        }
+
+        # Store last successful response safely
+        if store and status == "success":
+            trimmed = data
+            if len(str(trimmed)) > 10000:
+                trimmed = {"note": "Result too large for transformation."}
+
+            self.session_service.update_context(
+                session_id,
+                new_last_response={
+                    "status": status,
+                    "intent": intent,
+                    "data": trimmed
+                }
+            )
+
+        return standardized
+
+    # ======================================================
+    # MAIN ENTRY
+    # ======================================================
+
+    def handle_query(self, session_id: str, query: str) -> Dict:
+
+        session_data = self.session_service.get_session(session_id)
+
+        # -----------------------------
+        # Handle selection events
+        # -----------------------------
+        if query.startswith("__select_oem__="):
+            self.session_service.update_context(
+                session_id,
+                new_oem=query.split("=")[1]
+            )
+            return self._resume(session_id)
+
+        if query.startswith("__select_project__="):
+            self.session_service.update_context(
+                session_id,
+                new_project=query.split("=")[1]
+            )
+            return self._resume(session_id)
+
+        if query.startswith("__select_process__="):
+            self.session_service.update_context(
+                session_id,
+                new_process=query.split("=")[1]
+            )
+            return self._resume(session_id)
+
+        # Store query
+        self.session_service.update_context(
+            session_id,
+            new_last_query=query
+        )
+
+        # -----------------------------
+        # 1️⃣ Deterministic First
+        # -----------------------------
+        intent_data = self.classifier.classify(query)
+
+        if intent_data:
+            return self._execute_intent(
+                session_id,
+                intent_data["intent"],
+                session_data,
+                query
+            )
+
+        # -----------------------------
+        # 2️⃣ LLM Meta Intent (Fallback Only)
+        # -----------------------------
+        meta = self.llm.classify_meta_intent(query)
+
+        if (
+            meta.get("intent") in ["transform_previous", "explain_previous", "summarize_previous"]
+            and meta.get("confidence", 0) >= 0.75
+            and session_data.get("last_response") is not None
+        ):
+            transformed = self.llm.transform_previous(
+                session_data["last_response"]["data"],
+                query
+            )
+
+            return self._response(
+                session_id,
+                meta["intent"],
+                "success",
+                {"result": transformed},
+                store=False
+            )
+
+        # -----------------------------
+        # 3️⃣ Unknown
+        # -----------------------------
+        return self._response(
+            session_id,
+            "unknown_intent",
+            "unknown_intent",
+            {"message": "Unable to determine query intent."},
+            store=False
+        )
+
+    # ======================================================
+    # EXECUTION
+    # ======================================================
+
+    def _execute_intent(self, session_id, intent, context, query):
+
+        try:
+
+            if intent == "schedule_query":
+                result = self.config_service.get_schedule(
+                    context["project_key"],
+                    context["process_name"]
+                )
+
+            elif intent == "config_check":
+                result = self.config_service.get_config_value_by_query(
+                    context["project_key"],
+                    context["process_name"],
+                    query
+                )
+
+            elif intent == "filter_query":
+                result = self.config_service.get_filter_query(
+                    context["project_key"],
+                    context["process_name"]
+                )
+
+            elif intent in ["mapping_query", "mapping_value_query"]:
+                result = self.config_service.get_mapping_by_query(
+                    context["project_key"],
+                    context["process_name"],
+                    query
+                )
+
+            elif intent == "defect_history_query":
+                result = self.exchange_service.get_history(query)
+
+            elif intent == "failure_summary_query":
+                result = self.exchange_service.get_failure_summary(query)
+
+            elif intent == "top_failure_reason_query":
+                result = self.exchange_service.get_top_failure_reasons(query)
+
+            elif intent == "global_health_query":
+                result = self.exchange_service.get_global_health()
+
+            else:
+                return self._response(
+                    session_id,
+                    intent,
+                    "unknown_intent",
+                    {"message": "Intent not supported."},
+                    store=False
+                )
+
+            return self._response(
+                session_id,
+                intent,
+                result.get("status", "success"),
+                result
+            )
+
+        except Exception as e:
+            return self._response(
+                session_id,
+                intent,
+                "error",
+                {"message": str(e)},
+                store=False
+            )
+
+    # ======================================================
+    # RESUME LOGIC
+    # ======================================================
+
+    def _resume(self, session_id):
+        context = self.session_service.get_session(session_id)
+        intent = context.get("pending_intent")
+        query = context.get("last_query")
+
+        if not intent:
+            return self._response(
+                session_id,
+                "error",
+                "error",
+                {"message": "No pending intent to resume."},
+                store=False
+            )
+
+        return self._execute_intent(
+            session_id,
+            intent,
+            context,
+            query
+        )
+
+
+
+
+
+
+
+
+
+import requests
+import json
+import re
+from typing import Dict
+
+
+class LLMService:
+
+    def __init__(self):
+        self.base_url = "http://localhost:11434/api/chat"
+        self.model = "deepseek-coder-v2:latest"
+        self.timeout = 15  # Safe timeout
+
+    # ======================================================
+    # SAFE LLM CALL
+    # ======================================================
+
+    def _call(self, prompt: str) -> str:
+        try:
+            response = requests.post(
+                self.base_url,
+                json={
+                    "model": self.model,
+                    "stream": False,
+                    "messages": [
+                        {"role": "system", "content": "You are a JSON-only assistant."},
+                        {"role": "user", "content": prompt}
+                    ]
+                },
+                timeout=self.timeout
+            )
+
+            if response.status_code != 200:
+                return ""
+
+            data = response.json()
+            content = data.get("message", {}).get("content", "")
+
+            # Clean markdown wrappers
+            cleaned = re.sub(r"```json|```", "", content).strip()
+            return cleaned
+
+        except Exception:
+            return ""
+
+    # ======================================================
+    # META INTENT CLASSIFICATION
+    # ======================================================
+
+    def classify_meta_intent(self, query: str) -> Dict:
+
+        prompt = f"""
+You are a routing classifier.
+
+Return ONLY valid JSON.
+
+Possible intents:
+- transform_previous
+- explain_previous
+- summarize_previous
+- none
+
+Rules:
+- If user refers to "above result", "previous result", "convert", "timezone",
+  "explain this", "summarize this", choose appropriate meta intent.
+- If user asks new business query like schedule, mapping, filter, config,
+  choose "none".
+- Never invent new intent names.
+
+Return format:
+{{
+  "intent": "<intent_name>",
+  "confidence": 0.0-1.0
+}}
+
+Query:
+"{query}"
+"""
+
+        raw = self._call(prompt)
+
+        if not raw:
+            return {"intent": "none", "confidence": 0}
+
+        try:
+            parsed = json.loads(raw)
+            return {
+                "intent": parsed.get("intent", "none"),
+                "confidence": float(parsed.get("confidence", 0))
+            }
+        except Exception:
+            return {"intent": "none", "confidence": 0}
+
+    # ======================================================
+    # TRANSFORM PREVIOUS RESULT
+    # ======================================================
+
+    def transform_previous(self, previous_data: dict, user_query: str) -> str:
+
+        prompt = f"""
+You are an enterprise data assistant.
+
+User request:
+"{user_query}"
+
+Previous structured result:
 {json.dumps(previous_data, indent=2)}
 
-User Request:
-{user_query}
+Perform the requested transformation.
 
-Respond with filtered, precise answer.
+Rules:
+- Do not invent fields.
+- If converting timezone, convert properly.
+- If summarizing, summarize clearly.
+- If explaining, explain clearly.
+- Return plain text only (no JSON).
 """
+
+        result = self._call(prompt)
+
+        return result if result else "Unable to transform previous result."
