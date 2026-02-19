@@ -1,264 +1,43 @@
-def handle_query(self, session_id: str, query: str) -> Dict:
+def classify_intent(self, query: str):
 
-    print("---- HANDLE QUERY START ----")
-    print("Session:", session_id)
-    print("Query:", query)
+    prompt = f"""
+You are an intent classifier for a backend API system.
 
-    session_data = self.session_service.get_session(session_id)
-    print("Session Data:", session_data)
+You must respond with STRICT JSON only.
+No markdown.
+No explanation.
+No extra text.
 
-    # ------------------------------------------------------
-    # 1️⃣ HANDLE SELECTION EVENTS
-    # ------------------------------------------------------
+Your task:
+Detect if the user wants to modify or transform the PREVIOUS response.
 
-    if query.startswith("__select_oem__="):
-        selected_oem = query.split("=")[1]
-        self.session_service.update_context(session_id, new_oem=selected_oem)
-        updated = self.session_service.get_session(session_id)
-        return self._resume_pending_execution(session_id, updated)
+Return ONLY one of these intents:
 
-    if query.startswith("__select_project__="):
-        selected_project = query.split("=")[1]
-        self.session_service.update_context(session_id, new_project=selected_project)
-        updated = self.session_service.get_session(session_id)
-        return self._resume_pending_execution(session_id, updated)
+1. "transform_previous"
+   -> if the user wants to:
+      - convert timezone
+      - convert format
+      - rephrase
+      - summarize
+      - simplify
+      - explain previous result
+      - change units
+      - modify previously shown data
+      - refer to "above", "previous", "that result"
 
-    if query.startswith("__select_process__="):
-        selected_process = query.split("=")[1]
-        self.session_service.update_context(session_id, new_process=selected_process)
-        updated = self.session_service.get_session(session_id)
-        return self._resume_pending_execution(session_id, updated)
+2. "none"
+   -> if the query is a new independent question.
 
-    # ------------------------------------------------------
-    # 2️⃣ STORE LAST QUERY
-    # ------------------------------------------------------
+User Query:
+"{query}"
 
-    self.session_service.update_context(
-        session_id,
-        new_last_query=query
-    )
+Return format:
+{{ "intent": "<one of the above>" }}
+"""
 
-    session_data = self.session_service.get_session(session_id)
-
-    # ------------------------------------------------------
-    # 3️⃣ TRANSFORMATION CHECK FIRST (LLM META)
-    # ------------------------------------------------------
-
-    if session_data and session_data.get("last_response"):
-
-        ai_intent = self.llm.classify_intent(query)
-
-        if ai_intent and ai_intent.get("intent") == "transform_previous":
-
-            previous = session_data.get("last_response")
-
-            transformed = self.llm.transform_response(previous, query)
-
-            standardized = {
-                "status": "success",
-                "intent": "transform_previous",
-                "data": {
-                    "result": transformed
-                },
-                "session_id": session_id
-            }
-
-            # Store transformed response
-            self.session_service.update_context(
-                session_id,
-                new_last_response=standardized
-            )
-
-            return standardized
-
-    # ------------------------------------------------------
-    # 4️⃣ DETERMINISTIC CLASSIFIER
-    # ------------------------------------------------------
-
-    intent_data = self.classifier.classify(query)
-
-    if not intent_data:
-        return {
-            "status": "unknown_intent",
-            "message": "Unable to determine query intent.",
-            "session_id": session_id
-        }
-
-    intent = intent_data["intent"]
-    requires = intent_data.get("requires", [])
-
-    context = session_data
-    missing = []
-
-    # ------------------------------------------------------
-    # 5️⃣ CHECK CONTEXT REQUIREMENTS
-    # ------------------------------------------------------
-
-    if "project" in requires and not context.get("oem"):
-        missing.append("oem")
-
-    if "project" in requires and not context.get("project_key"):
-        missing.append("project")
-
-    if "process" in requires and not context.get("process_name"):
-        missing.append("process")
-
-    if missing:
-
-        self.session_service.update_context(
-            session_id,
-            new_pending_intent=intent
-        )
-
-        if "oem" in missing:
-            return {
-                "status": "clarification_required",
-                "intent": intent,
-                "details": {
-                    "oem_required": self.config_service.list_oems()
-                },
-                "session_id": session_id
-            }
-
-        if "project" in missing:
-            return {
-                "status": "clarification_required",
-                "intent": intent,
-                "details": {
-                    "project_required": self.config_service.list_projects_by_oem(context.get("oem"))
-                },
-                "session_id": session_id
-            }
-
-        if "process" in missing:
-            return {
-                "status": "clarification_required",
-                "intent": intent,
-                "details": {
-                    "process_required": self.config_service.list_processes(context.get("project_key"))
-                },
-                "session_id": session_id
-            }
-
-    # ------------------------------------------------------
-    # 6️⃣ EXECUTE
-    # ------------------------------------------------------
-
-    return self._execute_intent(intent, context, query, session_id)
-
-
-
-
-
-
-
-def _execute_intent(self, intent: str, context: Dict, query: str, session_id: str):
-
-    print("---- EXECUTING INTENT ----")
-    print("INTENT:", intent)
-    print("CONTEXT:", context)
-
-    self.session_service.update_context(
-        session_id,
-        new_pending_intent=None
-    )
+    response = self._call_llm(prompt)
 
     try:
-
-        if intent == "schedule_query":
-            result = self.config_service.get_schedule(
-                context["project_key"],
-                context["process_name"]
-            )
-
-        elif intent == "config_check":
-            result = self.config_service.get_config_value_by_query(
-                context["project_key"],
-                context["process_name"],
-                query
-            )
-
-        elif intent == "filter_query":
-            result = self.config_service.get_filter_query(
-                context["project_key"],
-                context["process_name"]
-            )
-
-        elif intent in ["mapping_query", "mapping_value_query"]:
-            result = self.config_service.get_mapping_by_query(
-                context["project_key"],
-                context["process_name"],
-                query
-            )
-
-        elif intent == "mapping_list_query":
-            result = self.config_service.get_all_mappings(
-                context["project_key"]
-            )
-
-        elif intent == "defect_history_query":
-            result = self.exchange_service.get_history(query)
-
-        elif intent == "failure_summary_query":
-            result = self.exchange_service.get_failure_summary(query)
-
-        elif intent == "top_failure_reason_query":
-            result = self.exchange_service.get_top_failure_reasons(query)
-
-        elif intent == "global_health_query":
-            result = self.exchange_service.get_global_health()
-
-        elif intent == "project_validation":
-            result = {
-                "status": "success",
-                "project_key": context["project_key"]
-            }
-
-        else:
-            return {
-                "status": "unknown_intent",
-                "intent": intent,
-                "message": "Intent not supported.",
-                "session_id": session_id
-            }
-
-    except Exception as e:
-        return {
-            "status": "error",
-            "intent": intent,
-            "message": str(e),
-            "session_id": session_id
-        }
-
-    # -------------------------------------------------
-    # STANDARDIZE RESPONSE (DO NOT CHANGE STRUCTURE)
-    # -------------------------------------------------
-
-    if not isinstance(result, dict):
-        result = {"data": result}
-
-    standardized = {
-        "status": result.get("status", "success"),
-        "intent": intent,
-        "data": result,
-        "session_id": session_id
-    }
-
-    # Store for future transformation
-    self.session_service.update_context(
-        session_id,
-        new_last_response=standardized
-    )
-
-    return standardized
-
-
-
-
-
-
-
-if response.get("intent") == "transform_previous":
-    content = response.get("data", {}).get("result", "")
-    await cl.Message(content=content).send()
-    return
+        return json.loads(response)
+    except:
+        return None
