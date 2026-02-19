@@ -1,332 +1,51 @@
-from typing import Dict
-from app.router.context_resolver import ContextResolver
-from app.router.intent_classifier import IntentClassifier
-from app.services.config_service import ConfigService
-from app.exchange_history.service import ExchangeHistoryService
-from app.session.session_service import SessionService
-from app.ai.llm_service import LLMService
+def _resume_pending_execution(self, session_id: str, context: Dict):
 
+    print("---- RESUME START ----")
+    print("RESUME CONTEXT:", context)
 
-class QueryRouter:
+    intent = context.get("pending_intent")
+    query = context.get("last_query")
 
-    def __init__(self):
-        self.resolver = ContextResolver()
-        self.classifier = IntentClassifier()
-        self.config_service = ConfigService()
-        self.exchange_service = ExchangeHistoryService()
-        self.session_service = SessionService()
-        self.llm = LLMService()
+    if not intent:
+        return {
+            "status": "error",
+            "message": "No pending intent to resume.",
+            "session_id": session_id
+        }
 
-    INTENT_REQUIREMENTS = {
-        "schedule_query": ["project", "process"],
-        "config_check": ["project", "process"],
-        "filter_query": ["project", "process"],
-        "mapping_query": ["project", "process"],
-        "mapping_value_query": ["project", "process"],
-        "defect_history_query": [],
-        "failure_summary_query": [],
-        "top_failure_reason_query": [],
-        "global_health_query": [],
-        "project_validation": ["project"]
-    }
+    requires = self.INTENT_REQUIREMENTS.get(intent, [])
 
-    # ==========================================================
-    # MAIN ENTRY
-    # ==========================================================
+    missing = []
 
-    def handle_query(self, session_id: str, query: str) -> Dict:
+    if "project" in requires and not context.get("project_key"):
+        missing.append("project")
 
-        print("---- HANDLE QUERY START ----")
-        print("Session:", session_id)
-        print("Query:", query)
+    if "process" in requires and not context.get("process_name"):
+        missing.append("process")
 
-        session_data = self.session_service.get_session(session_id)
+    # 🚨 VERY IMPORTANT
+    # If still missing → ask again
+    if missing:
 
-        # ------------------------------------------------------
-        # 1️⃣ HANDLE SELECTION EVENTS
-        # ------------------------------------------------------
-
-        if query.startswith("__select_oem__="):
-            selected_oem = query.split("=")[1]
-            self.session_service.update_context(session_id, new_oem=selected_oem)
-            return self._resume_pending_execution(
-                session_id,
-                self.session_service.get_session(session_id)
-            )
-
-        if query.startswith("__select_project__="):
-            selected_project = query.split("=")[1]
-            self.session_service.update_context(session_id, new_project=selected_project)
-            return self._resume_pending_execution(
-                session_id,
-                self.session_service.get_session(session_id)
-            )
-
-        if query.startswith("__select_process__="):
-            selected_process = query.split("=")[1]
-            self.session_service.update_context(session_id, new_process=selected_process)
-            return self._resume_pending_execution(
-                session_id,
-                self.session_service.get_session(session_id)
-            )
-
-        # ------------------------------------------------------
-        # 2️⃣ STORE LAST QUERY
-        # ------------------------------------------------------
-
-        self.session_service.update_context(
-            session_id,
-            new_last_query=query
-        )
-
-        # ------------------------------------------------------
-        # 3️⃣ RESOLVE CONTEXT (AUTO OEM FIX)
-        # ------------------------------------------------------
-
-        resolution = self.resolver.resolve(session_id, query)
-
-        if "error" in resolution:
-            return resolution
-
-        context = resolution.get("context", session_data)
-        ambiguity = resolution.get("ambiguity")
-
-        # ------------------------------------------------------
-        # 4️⃣ HANDLE AMBIGUITY
-        # ------------------------------------------------------
-
-        if ambiguity:
-            intent_data = self.classifier.classify(query)
-            if intent_data:
-                self.session_service.update_context(
-                    session_id,
-                    new_pending_intent=intent_data["intent"]
-                )
-
+        if "project" in missing:
             return {
                 "status": "clarification_required",
-                "details": ambiguity,
+                "details": {
+                    "project_required":
+                        self.config_service.list_projects_by_oem(context.get("oem"))
+                },
                 "session_id": session_id
             }
 
-        # ------------------------------------------------------
-        # 5️⃣ DETERMINISTIC CLASSIFIER FIRST
-        # ------------------------------------------------------
-
-        intent_data = self.classifier.classify(query)
-
-        if intent_data:
-            intent = intent_data["intent"]
-            requires = intent_data.get("requires", [])
-
-            missing = []
-
-            if "project" in requires and not context.get("oem"):
-                missing.append("oem")
-
-            if "project" in requires and not context.get("project_key"):
-                missing.append("project")
-
-            if "process" in requires and not context.get("process_name"):
-                missing.append("process")
-
-            if missing:
-                self.session_service.update_context(
-                    session_id,
-                    new_pending_intent=intent
-                )
-
-                if "oem" in missing:
-                    return {
-                        "status": "clarification_required",
-                        "details": {
-                            "oem_required": self.config_service.list_oems()
-                        },
-                        "session_id": session_id
-                    }
-
-                if "project" in missing:
-                    return {
-                        "status": "clarification_required",
-                        "details": {
-                            "project_required":
-                                self.config_service.list_projects_by_oem(context.get("oem"))
-                        },
-                        "session_id": session_id
-                    }
-
-                if "process" in missing:
-                    return {
-                        "status": "clarification_required",
-                        "details": {
-                            "process_required":
-                                self.config_service.list_processes(context.get("project_key"))
-                        },
-                        "session_id": session_id
-                    }
-
-            return self._execute_intent(intent, context, query, session_id)
-
-        # ------------------------------------------------------
-        # 6️⃣ LLM META (ONLY IF DETERMINISTIC FAILED)
-        # ------------------------------------------------------
-
-        session_data = self.session_service.get_session(session_id)
-
-        if session_data.get("last_response"):
-
-            meta = self.llm.classify_meta_intent(query)
-
-            print("LLM META:", meta)
-
-            if (
-                meta.get("intent") in ["transform_previous", "explain_previous", "summarize_previous"]
-                and meta.get("confidence", 0) >= 0.75
-            ):
-
-                previous = session_data["last_response"]["data"]
-
-                transformed = self.llm.transform_previous(previous, query)
-
-                return {
-                    "status": "success",
-                    "intent": meta["intent"],
-                    "data": {
-                        "result": transformed
-                    },
-                    "session_id": session_id
-                }
-
-        # ------------------------------------------------------
-        # 7️⃣ UNKNOWN
-        # ------------------------------------------------------
-
-        return {
-            "status": "unknown_intent",
-            "message": "Unable to determine query intent.",
-            "session_id": session_id
-        }
-
-    # ==========================================================
-    # EXECUTION
-    # ==========================================================
-
-    def _execute_intent(self, intent: str, context: Dict, query: str, session_id: str):
-
-        try:
-
-            if intent == "schedule_query":
-                result = self.config_service.get_schedule(
-                    context["project_key"],
-                    context["process_name"]
-                )
-
-            elif intent == "config_check":
-                result = self.config_service.get_config_value_by_query(
-                    context["project_key"],
-                    context["process_name"],
-                    query
-                )
-
-            elif intent == "filter_query":
-                result = self.config_service.get_filter_query(
-                    context["project_key"],
-                    context["process_name"]
-                )
-
-            elif intent in ["mapping_query", "mapping_value_query"]:
-                result = self.config_service.get_mapping_by_query(
-                    context["project_key"],
-                    context["process_name"],
-                    query
-                )
-
-            elif intent == "defect_history_query":
-                result = self.exchange_service.get_history(query)
-
-            elif intent == "failure_summary_query":
-                result = self.exchange_service.get_failure_summary(query)
-
-            elif intent == "top_failure_reason_query":
-                result = self.exchange_service.get_top_failure_reasons(query)
-
-            elif intent == "global_health_query":
-                result = self.exchange_service.get_global_health()
-
-            elif intent == "project_validation":
-                result = {
-                    "status": "success",
-                    "project_key": context["project_key"]
-                }
-
-            else:
-                return {
-                    "status": "unknown_intent",
-                    "intent": intent,
-                    "message": "Intent not supported.",
-                    "session_id": session_id
-                }
-
-        except Exception as e:
+        if "process" in missing:
             return {
-                "status": "error",
-                "intent": intent,
-                "message": str(e),
+                "status": "clarification_required",
+                "details": {
+                    "process_required":
+                        self.config_service.list_processes(context.get("project_key"))
+                },
                 "session_id": session_id
             }
 
-        standardized = {
-            "status": result.get("status", "success"),
-            "intent": intent,
-            "data": result,
-            "session_id": session_id
-        }
-
-        self.session_service.update_context(
-            session_id,
-            new_last_response=standardized,
-            new_pending_intent=None
-        )
-
-        return standardized
-
-    # ==========================================================
-    # RESUME LOGIC (UNCHANGED)
-    # ==========================================================
-
-    def _resume_pending_execution(self, session_id: str, context: Dict):
-
-        intent = context.get("pending_intent")
-        query = context.get("last_query")
-
-        if not intent:
-            return {
-                "status": "error",
-                "message": "No pending intent to resume.",
-                "session_id": session_id
-            }
-
-        return self._execute_intent(intent, context, query, session_id)
-
-    # ==========================================================
-    # FEEDBACK (UNCHANGED)
-    # ==========================================================
-
-    def handle_feedback(self, session_id: str, feedback: str):
-
-        session_data = self.session_service.get_session(session_id)
-
-        if not session_data:
-            return {"status": "error", "message": "Invalid session."}
-
-        query = session_data.get("last_query")
-        intent = session_data.get("pending_intent")
-
-        self.session_service.store_feedback(
-            session_id=session_id,
-            query=query,
-            intent=intent,
-            feedback=feedback
-        )
-
-        return {"status": "success"}
+    # All requirements satisfied → execute
+    return self._execute_intent(intent, context, query, session_id)
