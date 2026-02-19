@@ -1,138 +1,29 @@
-import requests
-import json
+def transform_response(self, previous_data: dict, user_query: str) -> str:
 
+    prompt = f"""
+You are a structured data reasoning assistant.
 
-class LLMService:
-
-    def __init__(self):
-        # Change if needed
-        self.base_url = "http://localhost:11434/api/generate"
-        self.model = "deepseek-coder-v2:latest"
-        self.timeout = 60
-
-
-    # ==========================================================
-    # INTERNAL CALL WRAPPER (SAFE, NO STREAMING)
-    # ==========================================================
-
-    def _call_llm(self, prompt: str) -> dict:
-
-        try:
-            response = requests.post(
-                self.base_url,
-                json={
-                    "model": self.model,
-                    "prompt": prompt,
-                    "stream": False  # 🚨 IMPORTANT
-                },
-                timeout=self.timeout
-            )
-
-            response.raise_for_status()
-
-            raw = response.json()
-
-            # Ollama style response
-            text = raw.get("response") or raw.get("message", {}).get("content", "")
-
-            # Remove markdown if model wrapped JSON in ```json
-            text = text.strip()
-            if text.startswith("```"):
-                text = text.replace("```json", "").replace("```", "").strip()
-
-            return json.loads(text)
-
-        except Exception as e:
-            print("LLM CALL ERROR:", str(e))
-            return {"intent": "none"}
-
-
-    # ==========================================================
-    # INTENT CLASSIFICATION (STRICT)
-    # ==========================================================
-
-    def classify_intent(self, query: str) -> dict:
-
-        prompt = f"""
-You are an intent classifier.
-
-The backend already supports deterministic intents.
-Your ONLY job is to detect whether the user is asking
-about a PREVIOUS RESULT.
-
-If the user wants to:
-- convert timezone
-- change format
-- summarize previous output
-- explain previous result
-- check if a field exists in previous mapping
-- ask follow-up about previous data
-
-Return exactly:
-{{"intent": "transform_previous"}}
-
-Otherwise return:
-{{"intent": "none"}}
-
-Return JSON only.
-No explanation.
-User Query:
-{query}
-"""
-
-        result = self._call_llm(prompt)
-
-        if not isinstance(result, dict):
-            return {"intent": "none"}
-
-        return result
-
-
-    # ==========================================================
-    # RESPONSE TRANSFORMATION
-    # ==========================================================
-
-    def transform_response(self, previous_data: dict, user_query: str) -> str:
-
-        prompt = f"""
-You are a data transformation assistant.
-
-You will receive structured JSON data from a system.
+You are given system-generated JSON data.
 The user is asking a follow-up question about that data.
 
-Rules:
-- Only use the provided JSON.
-- Do NOT hallucinate fields.
-- If converting timezone, adjust properly.
-- If field not found, clearly say so.
-- Respond in clean markdown.
-- Do NOT return JSON.
+IMPORTANT RULES:
+
+1. Only use the provided JSON.
+2. Do NOT hallucinate fields.
+3. If user asks about a specific field (e.g., Priority, Variant, Severity),
+   filter and return ONLY the relevant subset.
+4. If user asks about value mappings, return only value-level mappings.
+5. If field is not found, clearly state:
+   "Field not found in the previous result."
+6. If conversion is requested (timezone/format), modify only relevant fields.
+7. Do NOT return JSON.
+8. Respond in clean, structured markdown.
 
 Previous Data:
 {json.dumps(previous_data, indent=2)}
 
 User Request:
 {user_query}
+
+Respond with filtered, precise answer.
 """
-
-        try:
-            response = requests.post(
-                self.base_url,
-                json={
-                    "model": self.model,
-                    "prompt": prompt,
-                    "stream": False
-                },
-                timeout=self.timeout
-            )
-
-            response.raise_for_status()
-
-            raw = response.json()
-            text = raw.get("response") or raw.get("message", {}).get("content", "")
-
-            return text.strip()
-
-        except Exception as e:
-            print("TRANSFORMATION ERROR:", str(e))
-            return "⚠ Unable to transform previous result."
