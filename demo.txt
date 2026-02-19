@@ -1,43 +1,138 @@
-def classify_intent(self, query: str):
+import requests
+import json
 
-    prompt = f"""
-You are an intent classifier for a backend API system.
 
-You must respond with STRICT JSON only.
-No markdown.
+class LLMService:
+
+    def __init__(self):
+        # Change if needed
+        self.base_url = "http://localhost:11434/api/generate"
+        self.model = "deepseek-coder-v2:latest"
+        self.timeout = 60
+
+
+    # ==========================================================
+    # INTERNAL CALL WRAPPER (SAFE, NO STREAMING)
+    # ==========================================================
+
+    def _call_llm(self, prompt: str) -> dict:
+
+        try:
+            response = requests.post(
+                self.base_url,
+                json={
+                    "model": self.model,
+                    "prompt": prompt,
+                    "stream": False  # 🚨 IMPORTANT
+                },
+                timeout=self.timeout
+            )
+
+            response.raise_for_status()
+
+            raw = response.json()
+
+            # Ollama style response
+            text = raw.get("response") or raw.get("message", {}).get("content", "")
+
+            # Remove markdown if model wrapped JSON in ```json
+            text = text.strip()
+            if text.startswith("```"):
+                text = text.replace("```json", "").replace("```", "").strip()
+
+            return json.loads(text)
+
+        except Exception as e:
+            print("LLM CALL ERROR:", str(e))
+            return {"intent": "none"}
+
+
+    # ==========================================================
+    # INTENT CLASSIFICATION (STRICT)
+    # ==========================================================
+
+    def classify_intent(self, query: str) -> dict:
+
+        prompt = f"""
+You are an intent classifier.
+
+The backend already supports deterministic intents.
+Your ONLY job is to detect whether the user is asking
+about a PREVIOUS RESULT.
+
+If the user wants to:
+- convert timezone
+- change format
+- summarize previous output
+- explain previous result
+- check if a field exists in previous mapping
+- ask follow-up about previous data
+
+Return exactly:
+{{"intent": "transform_previous"}}
+
+Otherwise return:
+{{"intent": "none"}}
+
+Return JSON only.
 No explanation.
-No extra text.
-
-Your task:
-Detect if the user wants to modify or transform the PREVIOUS response.
-
-Return ONLY one of these intents:
-
-1. "transform_previous"
-   -> if the user wants to:
-      - convert timezone
-      - convert format
-      - rephrase
-      - summarize
-      - simplify
-      - explain previous result
-      - change units
-      - modify previously shown data
-      - refer to "above", "previous", "that result"
-
-2. "none"
-   -> if the query is a new independent question.
-
 User Query:
-"{query}"
-
-Return format:
-{{ "intent": "<one of the above>" }}
+{query}
 """
 
-    response = self._call_llm(prompt)
+        result = self._call_llm(prompt)
 
-    try:
-        return json.loads(response)
-    except:
-        return None
+        if not isinstance(result, dict):
+            return {"intent": "none"}
+
+        return result
+
+
+    # ==========================================================
+    # RESPONSE TRANSFORMATION
+    # ==========================================================
+
+    def transform_response(self, previous_data: dict, user_query: str) -> str:
+
+        prompt = f"""
+You are a data transformation assistant.
+
+You will receive structured JSON data from a system.
+The user is asking a follow-up question about that data.
+
+Rules:
+- Only use the provided JSON.
+- Do NOT hallucinate fields.
+- If converting timezone, adjust properly.
+- If field not found, clearly say so.
+- Respond in clean markdown.
+- Do NOT return JSON.
+
+Previous Data:
+{json.dumps(previous_data, indent=2)}
+
+User Request:
+{user_query}
+"""
+
+        try:
+            response = requests.post(
+                self.base_url,
+                json={
+                    "model": self.model,
+                    "prompt": prompt,
+                    "stream": False
+                },
+                timeout=self.timeout
+            )
+
+            response.raise_for_status()
+
+            raw = response.json()
+            text = raw.get("response") or raw.get("message", {}).get("content", "")
+
+            return text.strip()
+
+        except Exception as e:
+            print("TRANSFORMATION ERROR:", str(e))
+            return "⚠ Unable to transform previous result."
