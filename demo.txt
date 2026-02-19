@@ -1,103 +1,45 @@
-# STEP 1: Try LLM meta-intent first
-ai_intent = self.llm.classify_intent(query)
-
-if ai_intent and ai_intent.get("intent") == "transform_previous":
-    previous = self.session_service.get_session(session_id).get("last_response")
-
-    if not previous:
-        return {
-            "status": "error",
-            "message": "No previous result available to transform.",
-            "session_id": session_id
-        }
-
-    transformed = self.llm.transform_response(previous, query)
-
-    return {
-        "status": "success",
-        "intent": "transform_previous",
-        "data": {
-            "result": transformed
-        },
-        "session_id": session_id
-    }
-
-# STEP 2: Deterministic classifier
-intent_data = self.classifier.classify(query)
-
-if not intent_data:
-    return {
-        "status": "unknown_intent",
-        "message": "Unable to determine query intent.",
-        "session_id": session_id
-    }
-
-intent = intent_data["intent"]
-requires = intent_data.get("requires", [])
-
-
-
-
-
-
-def transform_response(self, previous_response: dict, user_query: str):
-
-    prompt = f"""
-You are an intelligent assistant working inside an enterprise exchange intelligence system.
-
-You are given:
-1) The previous system response (JSON)
-2) A new user request that refers to that response
-
-Your job:
-- Transform the previous response according to the user's request.
-- You must NOT invent new data.
-- You must ONLY use the provided previous response.
-- If the user asks for timezone conversion, convert properly.
-- If the user asks for explanation, summarize clearly.
-- If the request is unclear, respond with a clarification message.
-
-Return ONLY plain text.
-Do NOT return JSON.
-Do NOT wrap in code blocks.
-
-Previous Response:
-{previous_response}
-
-User Request:
-{user_query}
-
-Final Answer:
-"""
-
-    return self._call_llm(prompt)
-
-
-
-
-
-
-def classify_intent(self, query: str):
-
-    prompt = f"""
-You are an intent classifier.
-
-Determine if the user is asking to:
-- transform previous result
-- convert timezone
-- summarize previous answer
-- explain previous answer
-- reformat previous answer
-
-If yes, return:
-{{ "intent": "transform_previous" }}
-
-If not, return:
-{{ "intent": null }}
-
-User Query:
-{query}
-"""
-
-    response = self._call_llm(prompt)
-    return self._safe_json_parse(response)
+---- HANDLE QUERY START ----
+Session: 60c647d0-4191-4124-9597-54f3d7a33bfd
+Query: __select_oem__=TATA
+Session Data: {'oem': None, 'project_key': None, 'process_name': None, 'last_query': 'can you provide timings for Tata', 'pending_intent': 'schedule_query', 'last_response': None}
+---- RESUME START ----
+RESUME SESSION ID: 60c647d0-4191-4124-9597-54f3d7a33bfd
+RESUME CONTEXT: {'oem': 'TATA', 'project_key': None, 'process_name': None, 'last_query': 'can you provide timings for Tata', 'pending_intent': 'schedule_query', 'last_response': None}
+RESUME INTENT: schedule_query
+RESUME LAST QUERY: can you provide timings for Tata
+REQUIRED FIELDS: ['project', 'process']
+MISSING FIELDS: ['project', 'process']
+INFO:     127.0.0.1:57353 - "POST /query HTTP/1.1" 200 OK
+---- HANDLE QUERY START ----
+Session: 60c647d0-4191-4124-9597-54f3d7a33bfd
+Query: __select_project__=TASK30896
+Session Data: {'oem': 'TATA', 'project_key': None, 'process_name': None, 'last_query': 'can you provide timings for Tata', 'pending_intent': 'schedule_query', 'last_response': None}
+---- RESUME START ----
+RESUME SESSION ID: 60c647d0-4191-4124-9597-54f3d7a33bfd
+RESUME CONTEXT: {'oem': 'TATA', 'project_key': 'TASK30896', 'process_name': None, 'last_query': 'can you provide timings for Tata', 'pending_intent': 'schedule_query', 'last_response': None}
+RESUME INTENT: schedule_query
+RESUME LAST QUERY: can you provide timings for Tata
+REQUIRED FIELDS: ['project', 'process']
+MISSING FIELDS: ['process']
+INFO:     127.0.0.1:59105 - "POST /query HTTP/1.1" 200 OK
+---- HANDLE QUERY START ----
+Session: 60c647d0-4191-4124-9597-54f3d7a33bfd
+Query: __select_process__=Tata2Visteon_Skylark
+Session Data: {'oem': 'TATA', 'project_key': 'TASK30896', 'process_name': None, 'last_query': 'can you provide timings for Tata', 'pending_intent': 'schedule_query', 'last_response': None}
+---- RESUME START ----
+RESUME SESSION ID: 60c647d0-4191-4124-9597-54f3d7a33bfd
+RESUME CONTEXT: {'oem': 'TATA', 'project_key': 'TASK30896', 'process_name': 'Tata2Visteon_Skylark', 'last_query': 'can you provide timings for Tata', 'pending_intent': 'schedule_query', 'last_response': None}
+RESUME INTENT: schedule_query
+RESUME LAST QUERY: can you provide timings for Tata
+REQUIRED FIELDS: ['project', 'process']
+MISSING FIELDS: []
+---- EXECUTING INTENT ----
+INTENT: schedule_query
+CONTEXT: {'oem': 'TATA', 'project_key': 'TASK30896', 'process_name': 'Tata2Visteon_Skylark', 'last_query': 'can you provide timings for Tata', 'pending_intent': 'schedule_query', 'last_response': None}
+strandized {'status': 'success', 'intent': 'schedule_query', 'data': {'status': 'success', 'project_key': 'TASK30896', 'process_name': 'Tata2Visteon_Skylark', 'cron_expression': '0 30 1,5,9,21 ? * * ', 'readable_schedule': 'At 01:30, 05:30, 09:30 and 21:30', 'timezone': 'America/New_York', 'next_runs': []}, 'session_id': '60c647d0-4191-4124-9597-54f3d7a33bfd'}
+INFO:     127.0.0.1:53484 - "POST /query HTTP/1.1" 200 OK
+---- HANDLE QUERY START ----
+Session: 60c647d0-4191-4124-9597-54f3d7a33bfd
+Query: can you convert the above times to IST format
+Session Data: {'oem': 'TATA', 'project_key': 'TASK30896', 'process_name': 'Tata2Visteon_Skylark', 'last_query': 'can you provide timings for Tata', 'pending_intent': 'schedule_query', 'last_response': {'data': {'status': 'success', 'timezone': 'America/New_York', 'next_runs': [], 'project_key': 'TASK30896', 'process_name': 'Tata2Visteon_Skylark', 'cron_expression': '0 30 1,5,9,21 ? * * ', 'readable_schedule': 'At 01:30, 05:30, 09:30 and 21:30'}, 'intent': 'schedule_query', 'status': 'success', 'session_id': '60c647d0-4191-4124-9597-54f3d7a33bfd'}}
+INFO:     127.0.0.1:50649 - "POST /query HTTP/1.1" 200 OK
