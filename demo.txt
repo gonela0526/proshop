@@ -1,260 +1,10 @@
-[
-{
-	"sourceCondition":"status:Analysis",
-	"targetCondition":"status:待办",
-	"targetFinalState":"分析中",
-	"intermediateState":"已分配",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"11",
-	"commentText":"",
-	"_info":"(Analysis to Analyzing) final status: Analyzing, intermediateState: Assigned, it is moving from Todo state"
-},
-{
-	"sourceCondition":"status:Analysis",
-	"targetCondition":"status:已分配",
-	"targetFinalState":"分析中",
-	"intermediateState":"分析中",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"21",
-	"commentText":"",
-	"_info":"(Analysis to Analyzing) final status: Analyzing, intermediateState: Analyzing, it is moving from Assigned state"
-},
-{
-	"sourceCondition":"status:Implementation",
-	"targetCondition":"status:待办",
-	"targetFinalState":"修复中",
-	"intermediateState":"已分配",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"11",
-	"commentText":"",
-	"_info":"(Implementation to Under repair) final status: Under repair, intermediateState: Assigned, it is moving from Todo state"
-},
-{
-	"sourceCondition":"status:Implementation",
-	"targetCondition":"status:已分配",
-	"targetFinalState":"修复中",
-	"intermediateState":"分析中",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"21",
-	"commentText":"",
-	"_info":"(Implementation to Under repair) final status: Under repair, intermediateState: Analyzing, it is moving from Assigned state"
-},
-{
-	"sourceCondition":"status:Implementation",
-	"targetCondition":"status:分析中",
-	"targetFinalState":"修复中",
-	"intermediateState":"修复中",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"31",
-	"commentText":"Moving the status to 修复中",
-	"_info":"(Implementation to Under repair) final status: Under repair, intermediateState: Under repair, it is moving from Analyzing state"
-},
-{
-	"sourceCondition":"status:Integration",
-	"targetCondition":"status:待办",
-	"targetFinalState":"修复中",
-	"intermediateState":"已分配",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"11",
-	"commentText":"",
-	"_info":"(Integration to Under repair) final status: Under repair, intermediateState: Assigned, it is moving from Todo state"
-},
-{
-	"sourceCondition":"status:Integration",
-	"targetCondition":"status:已分配",
-	"targetFinalState":"修复中",
-	"intermediateState":"分析中",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"21",
-	"commentText":"",
-	"_info":"(Integration to Under repair) final status: Under repair, intermediateState: Analyzing, it is moving from Assigned state"
-},
-{
-	"sourceCondition":"status:Integration",
-	"targetCondition":"status:分析中",
-	"targetFinalState":"修复中",
-	"intermediateState":"修复中",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"31",
-	"commentText":"Moving the status to 修复中",
-	"_info":"(Integration to Under repair) final status: Under repair, intermediateState: Under repair, it is moving from Analyzing state"
-},
-{
-	"sourceCondition":"status:Validation",
-	"targetCondition":"status:待办",
-	"targetFinalState":"修复中",
-	"intermediateState":"已分配",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"11",
-	"commentText":"",
-	"_info":"(Validation to Under repair) final status: Under repair, intermediateState: Assigned, it is moving from Todo state"
-},
-{
-	"sourceCondition":"status:Validation",
-	"targetCondition":"status:已分配",
-	"targetFinalState":"修复中",
-	"intermediateState":"分析中",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"21",
-	"commentText":"",
-	"_info":"(Validation to Under repair) final status: Under repair, intermediateState: Analyzing, it is moving from Assigned state"
-},
-{
-	"sourceCondition":"status:Validation",
-	"targetCondition":"status:分析中",
-	"targetFinalState":"修复中",
-	"intermediateState":"修复中",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"31",
-	"commentText":"Moving the status to 修复中",
-	"_info":"(Validation to Under repair) final status: Under repair, intermediateState: Under repair, it is moving from Analyzing state"
-},
-{
-	"sourceCondition":"status:Customer Test",
-	"targetCondition":"status:待办",
-	"targetFinalState":"验收中",
-	"intermediateState":"已分配",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"11",
-	"commentText":"",
-	"_info":"(Customer Test to Under Acceptance) final status: Under repair, intermediateState: Assigned, it is moving from Todo state"
-},
-{
-	"sourceCondition":"status:Customer Test",
-	"targetCondition":"status:已分配",
-	"targetFinalState":"验收中",
-	"intermediateState":"分析中",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"21",
-	"commentText":"",
-	"_info":"(Customer Test to Under Acceptance) final status: Under Acceptance, intermediateState: Analyzing, it is moving from Assigned state"
-},
-{
-	"sourceCondition":"status:Customer Test",
-	"targetCondition":"status:分析中",
-	"targetFinalState":"验收中",
-	"intermediateState":"验收中",
-	"mandatoryFieldsValues":"修复人:VISTEONAPI",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"141",
-	"commentText":"Moving the status to 验收中",
-	"_info":"(Customer Test to Under Acceptance) final status: Under Acceptance, intermediateState: Under Acceptance, it is moving from Analyzing state"
-},
-{
-	"sourceCondition":"status:Customer Test",
-	"targetCondition":"status:修复中",
-	"targetFinalState":"验收中",
-	"intermediateState":"验收中",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"41",
-	"commentText":"Moving the status to 验收中",
-	"_info":"(Customer Test to Under Acceptance) final status: Under Acceptance, intermediateState: Under repair, it is moving from Under Repair state"
-},
-{
-	"sourceCondition":"status:CCB",
-	"targetCondition":"status:待办",
-	"targetFinalState":"申请挂起中",
-	"intermediateState":"已分配",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"11",
-	"commentText":"",
-	"_info":"(CCB to Application Pending) final status: Application Pending, intermediateState: Assigned, it is moving from Todo state"
-},
-{
-	"sourceCondition":"status:CCB",
-	"targetCondition":"status:已分配",
-	"targetFinalState":"申请挂起中",
-	"intermediateState":"分析中",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"21",
-	"commentText":"",
-	"_info":"(CCB to Application Pending) final status: Application Pending, intermediateState: Analyzing, it is moving from Assigned state"
-},
-{
-	"sourceCondition":"status:CCB",
-	"targetCondition":"status:分析中",
-	"targetFinalState":"申请挂起中",
-	"intermediateState":"申请挂起中",
-	"mandatoryFieldsValues":"",
-	"includeStatusTimeStampCondn":false,
-	"sourceTimeStampField":"",
-	"targetTimeStampField":"",
-	"transitionId":"121",
-	"commentText":"Moving the status to 申请挂起中",
-	"_info":"(CCB to Application Pending) final status: Application Pending, intermediateState: Under repair, it is moving from Analyzing state"
-}
-]
+package org.sumanth.process;
 
-
-
-
-
-
-package com.agosense.symphony.process.visteon.jira2jira_gen;
-
-
-import com.agosense.symphony.adapter.framework.AttributeType;
-import com.agosense.symphony.adapter.framework.DataTypes;
-import com.agosense.symphony.adapter.framework.ValueType;
-import com.agosense.symphony.adapter.jira.io.DoTransitionInput;
-import com.agosense.symphony.adapter.jira.io.JiraException;
-import com.agosense.symphony.adapter.jira.osgi.api.JiraOSGiServiceI;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.agosense.symphony.adapter.framework.EntityType;
-import org.apache.felix.dm.annotation.api.ServiceDependency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sumanth.lib.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -266,16 +16,16 @@ import java.util.*;
 
 public class StatusExchange {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(com.agosense.symphony.process.visteon.jira2jira_gen.StatusExchange.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StatusExchange.class);
 
-    JiraOSGiServiceI jira;
 
-    String statusFilePath;
-    EntityType sourceEntity;
-    EntityType targetEntity;
-    Jira2JiraCfg cfg;
+    private final String statusFilePath;
+    private final EntityType sourceEntity;
+    private final EntityType targetEntity;
+    private final Jira2JiraCfg cfg;
+    private final JiraOSGiServiceI jira;
 
-    public StatusExchange(String statusFilePath, EntityType sourceEntity, EntityType targetEntity,Jira2JiraCfg cfg,JiraOSGiServiceI jira) {
+    public StatusExchange(String statusFilePath, EntityType sourceEntity, EntityType targetEntity, Jira2JiraCfg cfg, JiraOSGiServiceI jira) {
         this.statusFilePath = statusFilePath;
         this.sourceEntity = sourceEntity;
         this.targetEntity = targetEntity;
@@ -283,309 +33,178 @@ public class StatusExchange {
         this.jira = jira;
     }
 
-    public void execute() throws IOException,JiraException, ParseException
-    {
-        LOGGER.info("inside the Status Exchange class in execute method");
-        Map<String,List<StatusMapObject>> sourceCondnMap = returnStatusMapObjectList();
+    public void execute() throws IOException, JiraException, ParseException {
+        LOGGER.info("Executing Status Exchange processing engine.");
 
-        LOGGER.info("Source Condition map object:{}",sourceCondnMap);
-
-        String finalSrcCondition =  returnSrcConditionObject(sourceCondnMap.keySet(),sourceEntity);
-        LOGGER.info("finalSourceCondition:{}",finalSrcCondition);
-        if(!finalSrcCondition.isEmpty())
-        {
-            LOGGER.info("going inside the final source condition");
-            LOGGER.info("Final source condition Object:{}",finalSrcCondition);
-            LOGGER.info("Target Entity:{}",targetEntity);
-            executeStatus(cfg,sourceEntity,sourceCondnMap.get(finalSrcCondition),targetEntity);
-        }
-
-    }
-
-    public Map<String,List<StatusMapObject>> returnStatusMapObjectList() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(statusFilePath);
-        Map<String,List<StatusMapObject>> sourceCondnMap = new HashMap<>();
+        List<StatusRule> rules = objectMapper.readValue(new File(statusFilePath), new TypeReference<List<StatusRule>>() {});
 
-        List<StatusMapObject> statusMapObjects = objectMapper
-                .readValue(file, new TypeReference<List<StatusMapObject>>() {});
+        // Find the single rule that matches the Source Entity state properties
+        StatusRule matchingRule = rules.stream()
+                .filter(rule -> verifyConditions(rule.getSourceConditions(), sourceEntity))
+                .findFirst()
+                .orElse(null);
 
-        //storing the status info data into map
-        for(StatusMapObject mapObject: statusMapObjects)
-        {
-            sourceCondnMap
-                    .computeIfAbsent(mapObject.getSourceCondition(),
-                            map->new ArrayList<>()).add(mapObject);
+        if (matchingRule == null) {
+            LOGGER.warn("No status mapping rule found matching the source entity context.");
+            return;
         }
 
-        return sourceCondnMap;
-
+        executeTransitions(matchingRule);
     }
 
-    public String returnSrcConditionObject(Set<String> srcCondns, EntityType sourceEntity)
-    {
-        for(String srcCond: srcCondns)
-        {
-            if(verifyCondition(srcCond,sourceEntity))
-            {
-                LOGGER.info("verified source Condition:{}",srcCond);
-                return srcCond;
+    private void executeTransitions(StatusRule rule) throws JiraException, ParseException {
+        List<TransitionStep> steps = rule.getTransitions();
+
+        // Find where to start in our transition array sequence based on current target status
+        int startIndex = -1;
+        for (int i = 0; i < steps.size(); i++) {
+            if (verifyConditions(steps.get(i).getTargetConditions(), targetEntity)) {
+                startIndex = i;
+                break;
             }
         }
-        return "";
+
+        if (startIndex == -1) {
+            LOGGER.warn("Target entity does not match any current starting transition state configurations.");
+            return;
+        }
+
+        // Validate timestamp condition if required before progressing
+        if (!isTimestampValid(rule.getTimestampCondition())) {
+            LOGGER.info("Skipping transition execution: Source timestamp is older than Target timestamp.");
+            return;
+        }
+
+        String targetId = getEntityAttributeValue(targetEntity, "key").orElseThrow(() -> new JiraException("Target Key is missing"));
+
+        // Iterate sequentially through steps starting from matched state position
+        for (int i = startIndex; i < steps.size(); i++) {
+            TransitionStep step = steps.get(i);
+            EntityType execEntity = new EntityType();
+
+            // Populate mandatory parameters safely dynamically
+            if (step.getMandatoryFields() != null) {
+                for (Map.Entry<String, String> fieldEntry : step.getMandatoryFields().entrySet()) {
+                    String fieldName = fieldEntry.getKey();
+                    String defaultValue = fieldEntry.getValue();
+
+                    if ("assignee".equalsIgnoreCase(fieldName)) {
+                        String currentAssignee = getEntityAttributeValue(targetEntity, "assigneeDisplayName").orElse("");
+                        if (currentAssignee.isEmpty()) {
+                            execEntity.getAttribute().add(new AttributeType(fieldName, DataTypes.TEXT, new ValueType(defaultValue)));
+                        }
+                    } else {
+                        String currentVal = getEntityAttributeValue(targetEntity, fieldName).orElse("");
+                        if (currentVal.isEmpty()) {
+                            String assignedValue = "duedate".equalsIgnoreCase(fieldName) ? getDueDate() : defaultValue;
+                            execEntity.getAttribute().add(new AttributeType(fieldName, DataTypes.TEXT, new ValueType(assignedValue)));
+                        }
+                    }
+                }
+            }
+
+            // Perform State Mutation via Transition execution
+            if (step.getCommentText() == null || step.getCommentText().isEmpty()) {
+                doTransition(targetId, step.getTransitionId(), execEntity);
+            } else {
+                doTransition(targetId, step.getTransitionId(), execEntity, step.getCommentText());
+            }
+
+            // Stop cascading transitions if target final state target objective has been met
+            if (step.getIntermediateState().equals(rule.getTargetFinalState())) {
+                LOGGER.info("Reached target final milestone: {}", rule.getTargetFinalState());
+                break;
+            }
+        }
     }
 
-    public boolean verifyCondition(String srcCond,EntityType sourceEntity)
-    {
-        String[] srcFieldsValues =  srcCond.split(",");
-        for(String fieldValues: srcFieldsValues )
-        {
-            String field = fieldValues.split(":")[0];
-            String value = fieldValues.split(":")[1];
+    private boolean verifyConditions(Map<String, String> conditions, EntityType entity) {
+        if (conditions == null || conditions.isEmpty()) return false;
 
-            String sourceValue = sourceEntity
-                    .getAttribute()
-                    .stream()
-                    .filter(a->a.getName().equals(field))
-                    .findFirst()
-                    .get()
-                    .getValue()
-                    .get(0)
-                    .getValue();
-
-            if(!sourceValue.equals(value))
-            {
+        for (Map.Entry<String, String> condition : conditions.entrySet()) {
+            String entityValue = getEntityAttributeValue(entity, condition.getKey()).orElse("");
+            if (!entityValue.equals(condition.getValue())) {
                 return false;
             }
         }
         return true;
     }
 
-    public void executeStatus(Jira2JiraCfg cfg,EntityType sourceEntity,List<StatusMapObject> statusMapObjectList, EntityType targetEntity) throws JiraException, ParseException {
-        String targetObjectStatus = targetEntity.getAttribute()
-                .stream()
-                .filter(a->a.getName().equals("status"))
-                .findFirst()
-                .get()
-                .getValue()
-                .get(0)
-                .getValue();
+    private boolean isTimestampValid(TimestampCondition tsCond) throws ParseException {
+        if (tsCond == null || !tsCond.isInclude()) return true;
 
+        String srcStamp = getEntityAttributeValue(sourceEntity, tsCond.getSourceField()).orElse("");
+        String targetStamp = getEntityAttributeValue(targetEntity, tsCond.getTargetField()).orElse("");
 
-        String msg = "";
+        if (srcStamp.isEmpty() || targetStamp.isEmpty()) return false;
 
-        int Index = returnIndexForTargetMatch(statusMapObjectList,targetEntity);
-        LOGGER.info("status object index:{}",Index);
-        if(Index!= -1)
-        {
-
-            boolean isStatusTimeStampLatest = compareTimeStamps(statusMapObjectList.get(Index),sourceEntity,targetEntity);
-
-            LOGGER.info("timeStampValue:{}",isStatusTimeStampLatest);
-
-            for(int i=Index;i<statusMapObjectList.size();i++)
-            {
-                StatusMapObject mapObject = statusMapObjectList.get(i);
-
-                EntityType execEntity = new EntityType();
-
-                String[] targetMandatoryFieldValArr = mapObject.getMandatoryFieldsValues().split(",");
-                LOGGER.info("targetMandatoryFieldValArr:{}", Arrays.toString(targetMandatoryFieldValArr));
-                for(String mandFieldVal:targetMandatoryFieldValArr)
-                {
-                    String[] mandFieldValArr = mandFieldVal.split(":");
-
-                    LOGGER.info("mandFieldValArr:{}", Arrays.toString(mandFieldValArr));
-
-                    if(mandFieldValArr.length>0 && !mandFieldValArr[0].isEmpty())
-                    {
-                        if(mandFieldValArr[0].equals("assignee"))
-                        {
-                            //handle assignee
-                            String targetAssigneeEmail = "";
-                            try{
-                                 targetAssigneeEmail = targetEntity
-                                        .getAttribute()
-                                        .stream()
-                                        .filter(a->a.getName().equals("assigneeDisplayName"))
-                                        .findFirst()
-                                        .get()
-                                        .getValue()
-                                        .get(0)
-                                        .getValue();
-                            }catch (Exception e)
-                            {
-                                e.printStackTrace();
-                            }
-
-
-                            if(targetAssigneeEmail.isEmpty() || targetAssigneeEmail == null)
-                            {
-                                execEntity.getAttribute().add(new AttributeType(mandFieldValArr[0], DataTypes.TEXT,new ValueType(mandFieldValArr[1])));
-                            }
-
-                        }else{
-
-                            String targetFieldVal = targetEntity
-                                    .getAttribute()
-                                    .stream()
-                                    .filter(a->a.getName().equals(mandFieldValArr[0]))
-                                    .findFirst()
-                                    .get()
-                                    .getValue()
-                                    .get(0)
-                                    .getValue();
-
-
-
-                            if(targetFieldVal.isEmpty())
-                            {
-                                //special condition for duedate
-                                if(mandFieldValArr[0].equals("duedate"))
-                                {
-                                    execEntity.getAttribute().add(new AttributeType(mandFieldValArr[0], DataTypes.TEXT,new ValueType(getDueDate())));
-                                }else{
-                                    execEntity.getAttribute().add(new AttributeType(mandFieldValArr[0], DataTypes.TEXT,new ValueType(mandFieldValArr[1])));
-                                }
-
-                            }
-
-                        }
-                    }
-
-
-                }
-
-                String targetId = targetEntity
-                        .getAttribute()
-                        .stream()
-                        .filter(a->a.getName().equals("key"))
-                        .findFirst()
-                        .get()
-                        .getValue()
-                        .get(0)
-                        .getValue();
-
-
-                //execute transiition
-                if(isStatusTimeStampLatest)
-                {
-                    if(mapObject.getCommentText().isEmpty())
-                    {
-                        doTransition(cfg,targetId, mapObject.getTransitionId(), execEntity);
-                    }else{
-                        doTransition(cfg,targetId, mapObject.getTransitionId(), execEntity,mapObject.getCommentText());
-                    }
-
-                }
-
-
-                targetObjectStatus = mapObject.getIntermediateState();
-
-                if(mapObject.getIntermediateState().equals(mapObject.getTargetFinalState()) && mapObject.getTargetFinalState().equals(targetObjectStatus))
-                {
-                    break;
-                }
-
-            }
-        }
-
-        //analysis
-    }
-
-    public int returnIndexForTargetMatch(List<StatusMapObject> statusMapObjectList,EntityType targetEntity)
-    {
-        for(int i=0;i<statusMapObjectList.size();i++)
-        {
-            if(verifyCondition(statusMapObjectList.get(i).getTargetCondition(),targetEntity))
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public boolean compareTimeStamps(StatusMapObject mapObject,EntityType sourceEntity, EntityType targetEntity) throws com.hazelcast.internal.json.ParseException, java.text.ParseException
-    {
-        if(!mapObject.isIncludeStatusTimeStampCondn()) return true;
-
-        String srcLastStatusStamp = sourceEntity
-                .getAttribute()
-                .stream()
-                .filter(a->a.getName().equals(mapObject.getSourceTimeStampField()))
-                .findFirst()
-                .get()
-                .getValue()
-                .get(0)
-                .getValue();
-
-        String destLastStatusStamp = targetEntity
-                .getAttribute()
-                .stream()
-                .filter(a->a.getName().equals(mapObject.getTargetTimeStampField()))
-                .findFirst()
-                .get()
-                .getValue()
-                .get(0)
-                .getValue();
-
-        srcLastStatusStamp = srcLastStatusStamp.substring(0,srcLastStatusStamp.length()-5);
-        destLastStatusStamp = destLastStatusStamp.substring(0,destLastStatusStamp.length()-5);
+        // Clean trailing offsets safely
+        srcStamp = srcStamp.substring(0, Math.min(srcStamp.length(), 19));
+        targetStamp = targetStamp.substring(0, Math.min(targetStamp.length(), 19));
 
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        Date srcDate = sdFormat.parse(srcLastStatusStamp);
-        Date destDate = sdFormat.parse(destLastStatusStamp);
+        Date srcDate = sdFormat.parse(srcStamp);
+        Date targetDate = sdFormat.parse(targetStamp);
 
-        return srcDate.after(destDate);
+        return srcDate.after(targetDate);
     }
 
+    private Optional<String> getEntityAttributeValue(EntityType entity, String attributeName) {
+        return entity.getAttribute().stream()
+                .filter(a -> a.getName().equalsIgnoreCase(attributeName))
+                .findFirst()
+                .flatMap(a -> a.getValue().stream().findFirst())
+                .map(ValueType::getValue);
+    }
 
-    private void doTransition(Jira2JiraCfg cfg,String targetId, String transitionId, EntityType entity) throws JiraException
-    {
-        LOGGER.info("inside the status exchange doTransition method");
-        LOGGER.info("target ID:{}",targetId);
-        LOGGER.info("transition ID:{}",transitionId);
-        LOGGER.info("Entity:{}",entity);
+    private void doTransition(String targetId, String transitionId, EntityType entity) throws JiraException {
+        doTransition(targetId, transitionId, entity, null);
+    }
 
-
+    private void doTransition(String targetId, String transitionId, EntityType entity, String comment) throws JiraException {
+        LOGGER.info("Executing transition ID {} for Issue Key {}", transitionId, targetId);
         DoTransitionInput input = new DoTransitionInput();
         input.setConfigSetName(cfg.destConfigSet());
         input.setIssueKey(targetId);
         input.setTransitionId(transitionId);
         input.setEntity(entity);
+        if (comment != null) {
+            input.setComment(comment);
+        }
+        EntityType output = jira.doTransition(input);
+        updateTargetEntity(output,targetEntity);
 
-        jira.doTransition(input);
     }
 
-
-    private void doTransition(Jira2JiraCfg cfg,String targetId, String transitionId, EntityType entity,String commentText) throws JiraException
-    {
-        LOGGER.info("inside the status exchange doTransition comment method");
-        LOGGER.info("target ID:{}",targetId);
-        LOGGER.info("transition ID:{}",transitionId);
-        LOGGER.info("Entity:{}",entity);
-
-
-        DoTransitionInput input = new DoTransitionInput();
-        input.setConfigSetName(cfg.destConfigSet());
-        input.setIssueKey(targetId);
-        input.setTransitionId(transitionId);
-        input.setEntity(entity);
-        input.setComment(commentText);
-
-        jira.doTransition(input);
+    private String getDueDate() {
+        return ZonedDateTime.now().plusDays(5).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
     }
 
+    public void updateTargetEntity(EntityType output, EntityType targetEntity) {
+        if (output == null || targetEntity == null || output.getAttribute() == null || targetEntity.getAttribute() == null) {
+            return;
+        }
 
-    private String getDueDate()
-    {
-        ZonedDateTime now = ZonedDateTime.now();
-        ZonedDateTime futureDate = now.plusDays(5);
+        output.getAttribute().stream()
+                .forEach(a -> {
+                    targetEntity.getAttribute().stream()
+                            .filter(ta -> ta.getName().equals(a.getName()))
+                            .findFirst()
+                            .ifPresent(matchedTargetAttribute -> {
+                                // Update type
+                                matchedTargetAttribute.setType(a.getType());
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-
-        return futureDate.format(formatter);
+                                // Deep copy or assign the values list
+                                if (a.getValue() != null) {
+                                    matchedTargetAttribute.setValue(new ArrayList<>(a.getValue()));
+                                } else {
+                                    matchedTargetAttribute.setValue(new ArrayList<>());
+                                }
+                            });
+                });
     }
+
 }
 
 
@@ -593,164 +212,175 @@ public class StatusExchange {
 
 
 
-package com.agosense.symphony.process.visteon.jira2jira_gen;
 
-public class StatusMapObject {
-    private String sourceCondition;
-    private String targetCondition;
+
+
+
+
+
+
+
+
+package org.sumanth.process;
+
+import java.util.List;
+import java.util.Map;
+
+public class StatusRule {
+    private String descriptionLabel;
+    private Map<String, String> sourceConditions;
     private String targetFinalState;
-    private String intermediateState;
-    private String mandatoryFieldsValues;
-    private boolean includeStatusTimeStampCondn;
-    private String sourceTimeStampField;
-    private String targetTimeStampField;
-    private String transitionId;
-    private String commentText;
-    private String _info;
+    private List<TransitionStep> transitions;
+    private TimestampCondition timestampCondition;
 
+    public String getDescriptionLabel() {return descriptionLabel;}
 
+    public void setDescriptionLabel(String descriptionLabel) {this.descriptionLabel = descriptionLabel;}
 
-    public StatusMapObject() {
+    public Map<String, String> getSourceConditions() {return sourceConditions;}
 
-    }
+    public void setSourceConditions(Map<String, String> sourceConditions) {this.sourceConditions = sourceConditions;}
 
+    public String getTargetFinalState() {return targetFinalState;}
 
-    public String getSourceCondition() {
-        return sourceCondition;
-    }
+    public void setTargetFinalState(String targetFinalState) {this.targetFinalState = targetFinalState;}
 
-    public void setSourceCondition(String sourceCondition) {
-        this.sourceCondition = sourceCondition;
-    }
+    public List<TransitionStep> getTransitions() {return transitions;}
 
-    public String getTargetCondition() {
-        return targetCondition;
-    }
+    public void setTransitions(List<TransitionStep> transitions) {this.transitions = transitions;}
 
-    public void setTargetCondition(String targetCondition) {
-        this.targetCondition = targetCondition;
-    }
+    public TimestampCondition getTimestampCondition() {return timestampCondition;}
 
-    public String getTargetFinalState() {
-        return targetFinalState;
-    }
-
-    public void setTargetFinalState(String targetFinalState) {
-        this.targetFinalState = targetFinalState;
-    }
-
-    public String getIntermediateState() {
-        return intermediateState;
-    }
-
-    public void setIntermediateState(String intermediateState) {
-        this.intermediateState = intermediateState;
-    }
-
-    public String getMandatoryFieldsValues() {
-        return mandatoryFieldsValues;
-    }
-
-    public void setMandatoryFieldsValues(String mandatoryFieldsValues) {
-        this.mandatoryFieldsValues = mandatoryFieldsValues;
-    }
-
-    public boolean isIncludeStatusTimeStampCondn() {
-        return includeStatusTimeStampCondn;
-    }
-
-    public void setIncludeStatusTimeStampCondn(boolean includeStatusTimeStampCondn) {
-        this.includeStatusTimeStampCondn = includeStatusTimeStampCondn;
-    }
-
-    public String getSourceTimeStampField() {
-        return sourceTimeStampField;
-    }
-
-    public void setSourceTimeStampField(String sourceTimeStampField) {
-        this.sourceTimeStampField = sourceTimeStampField;
-    }
-
-    public String getTargetTimeStampField() {
-        return targetTimeStampField;
-    }
-
-    public void setTargetTimeStampField(String targetTimeStampField) {
-        this.targetTimeStampField = targetTimeStampField;
-    }
-
-    public String getTransitionId() {
-        return transitionId;
-    }
-
-    public void setTransitionId(String transitionId) {
-        this.transitionId = transitionId;
-    }
-
-    public String getCommentText() {
-        return commentText;
-    }
-
-    public void setCommentText(String commentText) {
-        this.commentText = commentText;
-    }
-
-    public String get_info() {
-        return _info;
-    }
-
-    public void set_info(String _info) {
-        this._info = _info;
-    }
-
-    @Override
-    public String toString() {
-        return "StatusMapObject{" +
-                "sourceCondition='" + sourceCondition + '\'' +
-                ", targetCondition='" + targetCondition + '\'' +
-                ", targetFinalState='" + targetFinalState + '\'' +
-                ", intermediateState='" + intermediateState + '\'' +
-                ", mandatoryFieldsValues='" + mandatoryFieldsValues + '\'' +
-                ", includeStatusTimeStampCondn=" + includeStatusTimeStampCondn +
-                ", sourceTimeStampField='" + sourceTimeStampField + '\'' +
-                ", targetTimeStampField='" + targetTimeStampField + '\'' +
-                ", transitionId='" + transitionId + '\'' +
-                ", commentText='" + commentText + '\'' +
-                ", _info='" + _info + '\'' +
-                '}';
-    }
+    public void setTimestampCondition(TimestampCondition timestampCondition) {this.timestampCondition = timestampCondition;}
 }
 
 
 
 
 
-"entity": {
-      "attribute": [
-        {
-          "name": "key",
-          "type": "UNDEFINED",
-          "value": [
-            {
-              "value": "JLR3C29298-424715"
-            }
-          ]
+package org.sumanth.process;
+
+public class TimestampCondition {
+    private boolean include;
+    private String sourceField;
+    private String targetField;
+
+    public boolean isInclude() {return include;}
+
+    public void setInclude(boolean include) {this.include = include;}
+
+    public String getSourceField() {return sourceField;}
+
+    public void setSourceField(String sourceField) {this.sourceField = sourceField;}
+
+    public String getTargetField() {return targetField;}
+
+    public void setTargetField(String targetField) {this.targetField = targetField;}
+}
+
+
+
+
+
+package org.sumanth.process;
+
+import java.util.Map;
+
+public class TransitionStep {
+
+    private Map<String,String> targetConditions;
+    private String intermediateState;
+    private String transitionId;
+    private Map<String,String> mandatoryFields;
+    private String commentText;
+
+    public Map<String, String> getTargetConditions() {return targetConditions;}
+
+    public void setTargetConditions(Map<String, String> targetConditions) {this.targetConditions = targetConditions;}
+
+    public String getIntermediateState() {return intermediateState;}
+
+    public void setIntermediateState(String intermediateState) {this.intermediateState = intermediateState;}
+
+    public String getTransitionId() {return transitionId;}
+
+    public void setTransitionId(String transitionId) {this.transitionId = transitionId;}
+
+    public Map<String, String> getMandatoryFields() {return mandatoryFields;}
+
+    public void setMandatoryFields(Map<String, String> mandatoryFields) {this.mandatoryFields = mandatoryFields;}
+
+    public String getCommentText() {return commentText;}
+
+    public void setCommentText(String commentText) {this.commentText = commentText;}
+}
+
+
+
+
+
+
+
+[
+  {
+    "descriptionLabel": "MAPPING: Source In Review -> Target Final CCB",
+    "sourceConditions": {
+      "status": "In Review"
+    },
+    "targetFinalState": "CCB",
+    "transitions": [
+      {
+        "targetConditions": { "status": "New" },
+        "intermediateState": "Analysis",
+        "transitionId": "11",
+        "mandatoryFields": {
+          "duedate": "11-2-25",
+          "assignee": "sumanth:123:gonela"
         },
-        {
-          "name": "id",
-          "type": "UNDEFINED",
-          "value": [
-            {
-              "value": "7517683"
-            }
-          ]
+        "commentText": ""
+      },
+      {
+        "targetConditions": { "status": "Analysis" },
+        "intermediateState": "CCB",
+        "transitionId": "21",
+        "mandatoryFields": {},
+        "commentText": ""
+      }
+    ],
+    "timestampCondition": {
+      "include": false,
+      "sourceField": "",
+      "targetField": ""
+    }
+  },
+  {
+    "descriptionLabel": "MAPPING: Source Customer Test -> Target Final (验收中)",
+    "sourceConditions": {
+      "status": "Customer Test"
+    },
+    "targetFinalState": "验收中",
+    "transitions": [
+      {
+        "targetConditions": { "status": "待办" },
+        "intermediateState": "已分配",
+        "transitionId": "11",
+        "mandatoryFields": {},
+        "commentText": ""
+      },
+      {
+        "targetConditions": { "status": "分析中" },
+        "intermediateState": "验收中",
+        "transitionId": "141",
+        "mandatoryFields": {
+          "修复人": "VISTEONAPI"
         },
-        {
-          "name": "parent",
-          "type": "UNDEFINED",
-          "value": [
-            {
-              "value": ""
-            }
-          ]
-        },
+        "commentText": "Moving the status to 验收中"
+      }
+    ],
+    "timestampCondition": {
+      "include": false,
+      "sourceField": "",
+      "targetField": ""
+    }
+  }
+]
