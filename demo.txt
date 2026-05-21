@@ -1,51 +1,756 @@
-def _resume_pending_execution(self, session_id: str, context: Dict):
+[
+{
+	"sourceCondition":"status:Analysis",
+	"targetCondition":"status:待办",
+	"targetFinalState":"分析中",
+	"intermediateState":"已分配",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"11",
+	"commentText":"",
+	"_info":"(Analysis to Analyzing) final status: Analyzing, intermediateState: Assigned, it is moving from Todo state"
+},
+{
+	"sourceCondition":"status:Analysis",
+	"targetCondition":"status:已分配",
+	"targetFinalState":"分析中",
+	"intermediateState":"分析中",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"21",
+	"commentText":"",
+	"_info":"(Analysis to Analyzing) final status: Analyzing, intermediateState: Analyzing, it is moving from Assigned state"
+},
+{
+	"sourceCondition":"status:Implementation",
+	"targetCondition":"status:待办",
+	"targetFinalState":"修复中",
+	"intermediateState":"已分配",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"11",
+	"commentText":"",
+	"_info":"(Implementation to Under repair) final status: Under repair, intermediateState: Assigned, it is moving from Todo state"
+},
+{
+	"sourceCondition":"status:Implementation",
+	"targetCondition":"status:已分配",
+	"targetFinalState":"修复中",
+	"intermediateState":"分析中",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"21",
+	"commentText":"",
+	"_info":"(Implementation to Under repair) final status: Under repair, intermediateState: Analyzing, it is moving from Assigned state"
+},
+{
+	"sourceCondition":"status:Implementation",
+	"targetCondition":"status:分析中",
+	"targetFinalState":"修复中",
+	"intermediateState":"修复中",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"31",
+	"commentText":"Moving the status to 修复中",
+	"_info":"(Implementation to Under repair) final status: Under repair, intermediateState: Under repair, it is moving from Analyzing state"
+},
+{
+	"sourceCondition":"status:Integration",
+	"targetCondition":"status:待办",
+	"targetFinalState":"修复中",
+	"intermediateState":"已分配",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"11",
+	"commentText":"",
+	"_info":"(Integration to Under repair) final status: Under repair, intermediateState: Assigned, it is moving from Todo state"
+},
+{
+	"sourceCondition":"status:Integration",
+	"targetCondition":"status:已分配",
+	"targetFinalState":"修复中",
+	"intermediateState":"分析中",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"21",
+	"commentText":"",
+	"_info":"(Integration to Under repair) final status: Under repair, intermediateState: Analyzing, it is moving from Assigned state"
+},
+{
+	"sourceCondition":"status:Integration",
+	"targetCondition":"status:分析中",
+	"targetFinalState":"修复中",
+	"intermediateState":"修复中",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"31",
+	"commentText":"Moving the status to 修复中",
+	"_info":"(Integration to Under repair) final status: Under repair, intermediateState: Under repair, it is moving from Analyzing state"
+},
+{
+	"sourceCondition":"status:Validation",
+	"targetCondition":"status:待办",
+	"targetFinalState":"修复中",
+	"intermediateState":"已分配",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"11",
+	"commentText":"",
+	"_info":"(Validation to Under repair) final status: Under repair, intermediateState: Assigned, it is moving from Todo state"
+},
+{
+	"sourceCondition":"status:Validation",
+	"targetCondition":"status:已分配",
+	"targetFinalState":"修复中",
+	"intermediateState":"分析中",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"21",
+	"commentText":"",
+	"_info":"(Validation to Under repair) final status: Under repair, intermediateState: Analyzing, it is moving from Assigned state"
+},
+{
+	"sourceCondition":"status:Validation",
+	"targetCondition":"status:分析中",
+	"targetFinalState":"修复中",
+	"intermediateState":"修复中",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"31",
+	"commentText":"Moving the status to 修复中",
+	"_info":"(Validation to Under repair) final status: Under repair, intermediateState: Under repair, it is moving from Analyzing state"
+},
+{
+	"sourceCondition":"status:Customer Test",
+	"targetCondition":"status:待办",
+	"targetFinalState":"验收中",
+	"intermediateState":"已分配",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"11",
+	"commentText":"",
+	"_info":"(Customer Test to Under Acceptance) final status: Under repair, intermediateState: Assigned, it is moving from Todo state"
+},
+{
+	"sourceCondition":"status:Customer Test",
+	"targetCondition":"status:已分配",
+	"targetFinalState":"验收中",
+	"intermediateState":"分析中",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"21",
+	"commentText":"",
+	"_info":"(Customer Test to Under Acceptance) final status: Under Acceptance, intermediateState: Analyzing, it is moving from Assigned state"
+},
+{
+	"sourceCondition":"status:Customer Test",
+	"targetCondition":"status:分析中",
+	"targetFinalState":"验收中",
+	"intermediateState":"验收中",
+	"mandatoryFieldsValues":"修复人:VISTEONAPI",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"141",
+	"commentText":"Moving the status to 验收中",
+	"_info":"(Customer Test to Under Acceptance) final status: Under Acceptance, intermediateState: Under Acceptance, it is moving from Analyzing state"
+},
+{
+	"sourceCondition":"status:Customer Test",
+	"targetCondition":"status:修复中",
+	"targetFinalState":"验收中",
+	"intermediateState":"验收中",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"41",
+	"commentText":"Moving the status to 验收中",
+	"_info":"(Customer Test to Under Acceptance) final status: Under Acceptance, intermediateState: Under repair, it is moving from Under Repair state"
+},
+{
+	"sourceCondition":"status:CCB",
+	"targetCondition":"status:待办",
+	"targetFinalState":"申请挂起中",
+	"intermediateState":"已分配",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"11",
+	"commentText":"",
+	"_info":"(CCB to Application Pending) final status: Application Pending, intermediateState: Assigned, it is moving from Todo state"
+},
+{
+	"sourceCondition":"status:CCB",
+	"targetCondition":"status:已分配",
+	"targetFinalState":"申请挂起中",
+	"intermediateState":"分析中",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"21",
+	"commentText":"",
+	"_info":"(CCB to Application Pending) final status: Application Pending, intermediateState: Analyzing, it is moving from Assigned state"
+},
+{
+	"sourceCondition":"status:CCB",
+	"targetCondition":"status:分析中",
+	"targetFinalState":"申请挂起中",
+	"intermediateState":"申请挂起中",
+	"mandatoryFieldsValues":"",
+	"includeStatusTimeStampCondn":false,
+	"sourceTimeStampField":"",
+	"targetTimeStampField":"",
+	"transitionId":"121",
+	"commentText":"Moving the status to 申请挂起中",
+	"_info":"(CCB to Application Pending) final status: Application Pending, intermediateState: Under repair, it is moving from Analyzing state"
+}
+]
 
-    print("---- RESUME START ----")
-    print("RESUME CONTEXT:", context)
 
-    intent = context.get("pending_intent")
-    query = context.get("last_query")
 
-    if not intent:
-        return {
-            "status": "error",
-            "message": "No pending intent to resume.",
-            "session_id": session_id
+
+
+
+package com.agosense.symphony.process.visteon.jira2jira_gen;
+
+
+import com.agosense.symphony.adapter.framework.AttributeType;
+import com.agosense.symphony.adapter.framework.DataTypes;
+import com.agosense.symphony.adapter.framework.ValueType;
+import com.agosense.symphony.adapter.jira.io.DoTransitionInput;
+import com.agosense.symphony.adapter.jira.io.JiraException;
+import com.agosense.symphony.adapter.jira.osgi.api.JiraOSGiServiceI;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.agosense.symphony.adapter.framework.EntityType;
+import org.apache.felix.dm.annotation.api.ServiceDependency;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+public class StatusExchange {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(com.agosense.symphony.process.visteon.jira2jira_gen.StatusExchange.class);
+
+    JiraOSGiServiceI jira;
+
+    String statusFilePath;
+    EntityType sourceEntity;
+    EntityType targetEntity;
+    Jira2JiraCfg cfg;
+
+    public StatusExchange(String statusFilePath, EntityType sourceEntity, EntityType targetEntity,Jira2JiraCfg cfg,JiraOSGiServiceI jira) {
+        this.statusFilePath = statusFilePath;
+        this.sourceEntity = sourceEntity;
+        this.targetEntity = targetEntity;
+        this.cfg = cfg;
+        this.jira = jira;
+    }
+
+    public void execute() throws IOException,JiraException, ParseException
+    {
+        LOGGER.info("inside the Status Exchange class in execute method");
+        Map<String,List<StatusMapObject>> sourceCondnMap = returnStatusMapObjectList();
+
+        LOGGER.info("Source Condition map object:{}",sourceCondnMap);
+
+        String finalSrcCondition =  returnSrcConditionObject(sourceCondnMap.keySet(),sourceEntity);
+        LOGGER.info("finalSourceCondition:{}",finalSrcCondition);
+        if(!finalSrcCondition.isEmpty())
+        {
+            LOGGER.info("going inside the final source condition");
+            LOGGER.info("Final source condition Object:{}",finalSrcCondition);
+            LOGGER.info("Target Entity:{}",targetEntity);
+            executeStatus(cfg,sourceEntity,sourceCondnMap.get(finalSrcCondition),targetEntity);
         }
 
-    requires = self.INTENT_REQUIREMENTS.get(intent, [])
+    }
 
-    missing = []
+    public Map<String,List<StatusMapObject>> returnStatusMapObjectList() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File(statusFilePath);
+        Map<String,List<StatusMapObject>> sourceCondnMap = new HashMap<>();
 
-    if "project" in requires and not context.get("project_key"):
-        missing.append("project")
+        List<StatusMapObject> statusMapObjects = objectMapper
+                .readValue(file, new TypeReference<List<StatusMapObject>>() {});
 
-    if "process" in requires and not context.get("process_name"):
-        missing.append("process")
+        //storing the status info data into map
+        for(StatusMapObject mapObject: statusMapObjects)
+        {
+            sourceCondnMap
+                    .computeIfAbsent(mapObject.getSourceCondition(),
+                            map->new ArrayList<>()).add(mapObject);
+        }
 
-    # 🚨 VERY IMPORTANT
-    # If still missing → ask again
-    if missing:
+        return sourceCondnMap;
 
-        if "project" in missing:
-            return {
-                "status": "clarification_required",
-                "details": {
-                    "project_required":
-                        self.config_service.list_projects_by_oem(context.get("oem"))
-                },
-                "session_id": session_id
+    }
+
+    public String returnSrcConditionObject(Set<String> srcCondns, EntityType sourceEntity)
+    {
+        for(String srcCond: srcCondns)
+        {
+            if(verifyCondition(srcCond,sourceEntity))
+            {
+                LOGGER.info("verified source Condition:{}",srcCond);
+                return srcCond;
             }
+        }
+        return "";
+    }
 
-        if "process" in missing:
-            return {
-                "status": "clarification_required",
-                "details": {
-                    "process_required":
-                        self.config_service.list_processes(context.get("project_key"))
-                },
-                "session_id": session_id
+    public boolean verifyCondition(String srcCond,EntityType sourceEntity)
+    {
+        String[] srcFieldsValues =  srcCond.split(",");
+        for(String fieldValues: srcFieldsValues )
+        {
+            String field = fieldValues.split(":")[0];
+            String value = fieldValues.split(":")[1];
+
+            String sourceValue = sourceEntity
+                    .getAttribute()
+                    .stream()
+                    .filter(a->a.getName().equals(field))
+                    .findFirst()
+                    .get()
+                    .getValue()
+                    .get(0)
+                    .getValue();
+
+            if(!sourceValue.equals(value))
+            {
+                return false;
             }
+        }
+        return true;
+    }
 
-    # All requirements satisfied → execute
-    return self._execute_intent(intent, context, query, session_id)
+    public void executeStatus(Jira2JiraCfg cfg,EntityType sourceEntity,List<StatusMapObject> statusMapObjectList, EntityType targetEntity) throws JiraException, ParseException {
+        String targetObjectStatus = targetEntity.getAttribute()
+                .stream()
+                .filter(a->a.getName().equals("status"))
+                .findFirst()
+                .get()
+                .getValue()
+                .get(0)
+                .getValue();
+
+
+        String msg = "";
+
+        int Index = returnIndexForTargetMatch(statusMapObjectList,targetEntity);
+        LOGGER.info("status object index:{}",Index);
+        if(Index!= -1)
+        {
+
+            boolean isStatusTimeStampLatest = compareTimeStamps(statusMapObjectList.get(Index),sourceEntity,targetEntity);
+
+            LOGGER.info("timeStampValue:{}",isStatusTimeStampLatest);
+
+            for(int i=Index;i<statusMapObjectList.size();i++)
+            {
+                StatusMapObject mapObject = statusMapObjectList.get(i);
+
+                EntityType execEntity = new EntityType();
+
+                String[] targetMandatoryFieldValArr = mapObject.getMandatoryFieldsValues().split(",");
+                LOGGER.info("targetMandatoryFieldValArr:{}", Arrays.toString(targetMandatoryFieldValArr));
+                for(String mandFieldVal:targetMandatoryFieldValArr)
+                {
+                    String[] mandFieldValArr = mandFieldVal.split(":");
+
+                    LOGGER.info("mandFieldValArr:{}", Arrays.toString(mandFieldValArr));
+
+                    if(mandFieldValArr.length>0 && !mandFieldValArr[0].isEmpty())
+                    {
+                        if(mandFieldValArr[0].equals("assignee"))
+                        {
+                            //handle assignee
+                            String targetAssigneeEmail = "";
+                            try{
+                                 targetAssigneeEmail = targetEntity
+                                        .getAttribute()
+                                        .stream()
+                                        .filter(a->a.getName().equals("assigneeDisplayName"))
+                                        .findFirst()
+                                        .get()
+                                        .getValue()
+                                        .get(0)
+                                        .getValue();
+                            }catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+
+
+                            if(targetAssigneeEmail.isEmpty() || targetAssigneeEmail == null)
+                            {
+                                execEntity.getAttribute().add(new AttributeType(mandFieldValArr[0], DataTypes.TEXT,new ValueType(mandFieldValArr[1])));
+                            }
+
+                        }else{
+
+                            String targetFieldVal = targetEntity
+                                    .getAttribute()
+                                    .stream()
+                                    .filter(a->a.getName().equals(mandFieldValArr[0]))
+                                    .findFirst()
+                                    .get()
+                                    .getValue()
+                                    .get(0)
+                                    .getValue();
+
+
+
+                            if(targetFieldVal.isEmpty())
+                            {
+                                //special condition for duedate
+                                if(mandFieldValArr[0].equals("duedate"))
+                                {
+                                    execEntity.getAttribute().add(new AttributeType(mandFieldValArr[0], DataTypes.TEXT,new ValueType(getDueDate())));
+                                }else{
+                                    execEntity.getAttribute().add(new AttributeType(mandFieldValArr[0], DataTypes.TEXT,new ValueType(mandFieldValArr[1])));
+                                }
+
+                            }
+
+                        }
+                    }
+
+
+                }
+
+                String targetId = targetEntity
+                        .getAttribute()
+                        .stream()
+                        .filter(a->a.getName().equals("key"))
+                        .findFirst()
+                        .get()
+                        .getValue()
+                        .get(0)
+                        .getValue();
+
+
+                //execute transiition
+                if(isStatusTimeStampLatest)
+                {
+                    if(mapObject.getCommentText().isEmpty())
+                    {
+                        doTransition(cfg,targetId, mapObject.getTransitionId(), execEntity);
+                    }else{
+                        doTransition(cfg,targetId, mapObject.getTransitionId(), execEntity,mapObject.getCommentText());
+                    }
+
+                }
+
+
+                targetObjectStatus = mapObject.getIntermediateState();
+
+                if(mapObject.getIntermediateState().equals(mapObject.getTargetFinalState()) && mapObject.getTargetFinalState().equals(targetObjectStatus))
+                {
+                    break;
+                }
+
+            }
+        }
+
+        //analysis
+    }
+
+    public int returnIndexForTargetMatch(List<StatusMapObject> statusMapObjectList,EntityType targetEntity)
+    {
+        for(int i=0;i<statusMapObjectList.size();i++)
+        {
+            if(verifyCondition(statusMapObjectList.get(i).getTargetCondition(),targetEntity))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean compareTimeStamps(StatusMapObject mapObject,EntityType sourceEntity, EntityType targetEntity) throws com.hazelcast.internal.json.ParseException, java.text.ParseException
+    {
+        if(!mapObject.isIncludeStatusTimeStampCondn()) return true;
+
+        String srcLastStatusStamp = sourceEntity
+                .getAttribute()
+                .stream()
+                .filter(a->a.getName().equals(mapObject.getSourceTimeStampField()))
+                .findFirst()
+                .get()
+                .getValue()
+                .get(0)
+                .getValue();
+
+        String destLastStatusStamp = targetEntity
+                .getAttribute()
+                .stream()
+                .filter(a->a.getName().equals(mapObject.getTargetTimeStampField()))
+                .findFirst()
+                .get()
+                .getValue()
+                .get(0)
+                .getValue();
+
+        srcLastStatusStamp = srcLastStatusStamp.substring(0,srcLastStatusStamp.length()-5);
+        destLastStatusStamp = destLastStatusStamp.substring(0,destLastStatusStamp.length()-5);
+
+        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date srcDate = sdFormat.parse(srcLastStatusStamp);
+        Date destDate = sdFormat.parse(destLastStatusStamp);
+
+        return srcDate.after(destDate);
+    }
+
+
+    private void doTransition(Jira2JiraCfg cfg,String targetId, String transitionId, EntityType entity) throws JiraException
+    {
+        LOGGER.info("inside the status exchange doTransition method");
+        LOGGER.info("target ID:{}",targetId);
+        LOGGER.info("transition ID:{}",transitionId);
+        LOGGER.info("Entity:{}",entity);
+
+
+        DoTransitionInput input = new DoTransitionInput();
+        input.setConfigSetName(cfg.destConfigSet());
+        input.setIssueKey(targetId);
+        input.setTransitionId(transitionId);
+        input.setEntity(entity);
+
+        jira.doTransition(input);
+    }
+
+
+    private void doTransition(Jira2JiraCfg cfg,String targetId, String transitionId, EntityType entity,String commentText) throws JiraException
+    {
+        LOGGER.info("inside the status exchange doTransition comment method");
+        LOGGER.info("target ID:{}",targetId);
+        LOGGER.info("transition ID:{}",transitionId);
+        LOGGER.info("Entity:{}",entity);
+
+
+        DoTransitionInput input = new DoTransitionInput();
+        input.setConfigSetName(cfg.destConfigSet());
+        input.setIssueKey(targetId);
+        input.setTransitionId(transitionId);
+        input.setEntity(entity);
+        input.setComment(commentText);
+
+        jira.doTransition(input);
+    }
+
+
+    private String getDueDate()
+    {
+        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime futureDate = now.plusDays(5);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+        return futureDate.format(formatter);
+    }
+}
+
+
+
+
+
+
+package com.agosense.symphony.process.visteon.jira2jira_gen;
+
+public class StatusMapObject {
+    private String sourceCondition;
+    private String targetCondition;
+    private String targetFinalState;
+    private String intermediateState;
+    private String mandatoryFieldsValues;
+    private boolean includeStatusTimeStampCondn;
+    private String sourceTimeStampField;
+    private String targetTimeStampField;
+    private String transitionId;
+    private String commentText;
+    private String _info;
+
+
+
+    public StatusMapObject() {
+
+    }
+
+
+    public String getSourceCondition() {
+        return sourceCondition;
+    }
+
+    public void setSourceCondition(String sourceCondition) {
+        this.sourceCondition = sourceCondition;
+    }
+
+    public String getTargetCondition() {
+        return targetCondition;
+    }
+
+    public void setTargetCondition(String targetCondition) {
+        this.targetCondition = targetCondition;
+    }
+
+    public String getTargetFinalState() {
+        return targetFinalState;
+    }
+
+    public void setTargetFinalState(String targetFinalState) {
+        this.targetFinalState = targetFinalState;
+    }
+
+    public String getIntermediateState() {
+        return intermediateState;
+    }
+
+    public void setIntermediateState(String intermediateState) {
+        this.intermediateState = intermediateState;
+    }
+
+    public String getMandatoryFieldsValues() {
+        return mandatoryFieldsValues;
+    }
+
+    public void setMandatoryFieldsValues(String mandatoryFieldsValues) {
+        this.mandatoryFieldsValues = mandatoryFieldsValues;
+    }
+
+    public boolean isIncludeStatusTimeStampCondn() {
+        return includeStatusTimeStampCondn;
+    }
+
+    public void setIncludeStatusTimeStampCondn(boolean includeStatusTimeStampCondn) {
+        this.includeStatusTimeStampCondn = includeStatusTimeStampCondn;
+    }
+
+    public String getSourceTimeStampField() {
+        return sourceTimeStampField;
+    }
+
+    public void setSourceTimeStampField(String sourceTimeStampField) {
+        this.sourceTimeStampField = sourceTimeStampField;
+    }
+
+    public String getTargetTimeStampField() {
+        return targetTimeStampField;
+    }
+
+    public void setTargetTimeStampField(String targetTimeStampField) {
+        this.targetTimeStampField = targetTimeStampField;
+    }
+
+    public String getTransitionId() {
+        return transitionId;
+    }
+
+    public void setTransitionId(String transitionId) {
+        this.transitionId = transitionId;
+    }
+
+    public String getCommentText() {
+        return commentText;
+    }
+
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
+    }
+
+    public String get_info() {
+        return _info;
+    }
+
+    public void set_info(String _info) {
+        this._info = _info;
+    }
+
+    @Override
+    public String toString() {
+        return "StatusMapObject{" +
+                "sourceCondition='" + sourceCondition + '\'' +
+                ", targetCondition='" + targetCondition + '\'' +
+                ", targetFinalState='" + targetFinalState + '\'' +
+                ", intermediateState='" + intermediateState + '\'' +
+                ", mandatoryFieldsValues='" + mandatoryFieldsValues + '\'' +
+                ", includeStatusTimeStampCondn=" + includeStatusTimeStampCondn +
+                ", sourceTimeStampField='" + sourceTimeStampField + '\'' +
+                ", targetTimeStampField='" + targetTimeStampField + '\'' +
+                ", transitionId='" + transitionId + '\'' +
+                ", commentText='" + commentText + '\'' +
+                ", _info='" + _info + '\'' +
+                '}';
+    }
+}
+
+
+
+
+
+"entity": {
+      "attribute": [
+        {
+          "name": "key",
+          "type": "UNDEFINED",
+          "value": [
+            {
+              "value": "JLR3C29298-424715"
+            }
+          ]
+        },
+        {
+          "name": "id",
+          "type": "UNDEFINED",
+          "value": [
+            {
+              "value": "7517683"
+            }
+          ]
+        },
+        {
+          "name": "parent",
+          "type": "UNDEFINED",
+          "value": [
+            {
+              "value": ""
+            }
+          ]
+        },
